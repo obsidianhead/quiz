@@ -1,0 +1,78 @@
+/* General Styles for Both Pages */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #001f3f; /* Very dark blue background */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Align items to the top to prevent cut-off */
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px; /* Add padding to ensure content isn't cut off */
+    box-sizing: border-box; /* Include padding in width/height calculations */
+    overflow-y: auto; /* Ensure scrolling if content is too tall */
+}
+
+/* Rest of your styles remain the same */
+#form-container, #quiz-container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 600px; /* Optional max-width for readability */
+    text-align: center;
+    margin-top: 20px; /* Add margin to ensure it isn't too close to the top */
+    display: flex; /* Make it a flex container */
+    flex-direction: column; /* Arrange children vertically */
+    align-items: center; /* Center align children */
+}
+
+/* Styling for Quiz Question Options */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px; /* Increased padding for more space inside the container */
+    background-color: #e7f0ff; /* Subtle blue background for question container */
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effects */
+    margin-bottom: 5px; /* Reduced margin for less spacing between answers */
+    width: 100%; /* Ensure full width for answer containers */
+}
+
+/* Override Bootstrap Hover Effect */
+.btn-outline-secondary:hover {
+    background-color: #e0ecff !important; /* Slightly lighter blue on hover */
+    color: #333 !important; /* Maintain text color */
+    border-color: #d0e6ff !important; /* Subtle border color change */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08); /* Very subtle shadow increase on hover */
+    cursor: pointer;
+}
+
+.checkbox-label input[type="radio"], .checkbox-label input[type="checkbox"] {
+    margin-right: 10px; /* Add space between input and answer text */
+    cursor: pointer;
+}
+
+/* Output Area for JSON in Quiz Generator */
+#output, #quiz-timer {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-top: 20px;
+    box-sizing: border-box;
+    resize: none;
+    background-color: #f7f7f7;
+    font-size: 14px;
+    font-family: monospace;
+    text-align: center; /* Center align text within timer */
+}
+
+/* Status Messages */
+#status {
+    color: #333;
+    font-size: 16px;
+    margin-bottom: 15px;
+    text-align: center;
+}
