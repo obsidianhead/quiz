@@ -1,7 +1,7 @@
 # creating new a new quiz
 - create a new branch with command: git branch <name>
 - switch to branch with command: git checkout <name>
-- modify questions.json and quiz_config.json
+- modify questions.json, quiz_config.json, and images.json
 - commit changes to branch with command: git commit -m "this is a commit message"
 
 # updating codebase
