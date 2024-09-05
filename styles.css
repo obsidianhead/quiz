@@ -9,22 +9,47 @@ body {
     margin: 0;
     padding: 20px; /* Add padding to ensure content isn't cut off */
     box-sizing: border-box; /* Include padding in width/height calculations */
-    overflow-y: auto; /* Ensure scrolling if content is too tall */
+    overflow: auto; /* Allow scrolling if content is too tall */
 }
 
-/* Rest of your styles remain the same */
-#form-container, #quiz-container {
+/* Container Styles */
+#quiz-container {
     background-color: white;
-    padding: 30px;
+    padding: 20px; /* Adjust padding if needed */
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
     max-width: 600px; /* Optional max-width for readability */
     text-align: center;
     margin-top: 20px; /* Add margin to ensure it isn't too close to the top */
-    display: flex; /* Make it a flex container */
-    flex-direction: column; /* Arrange children vertically */
-    align-items: center; /* Center align children */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: auto; /* Allow scrolling within the quiz container */
+    box-sizing: border-box; /* Include padding/border in width/height calculations */
+}
+
+/* Timer Styles */
+#quiz-timer {
+    width: 100%; /* Ensure it spans the width of the container */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px; /* Space between timer and quiz content */
+    box-sizing: border-box;
+    background-color: #f7f7f7;
+    font-size: 14px;
+    font-family: monospace;
+    text-align: center; /* Center align text within timer */
+}
+
+/* Card Styles */
+.card {
+    width: 100%; /* Ensure card takes up the full width of the container */
+    max-width: 100%; /* Prevent card from exceeding container width */
+    box-sizing: border-box; /* Include padding/border in width/height calculations */
+    margin: 0 auto; /* Center the card */
+    overflow: hidden; /* Prevent card overflow */
 }
 
 /* Styling for Quiz Question Options */
@@ -37,7 +62,8 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effects */
     margin-bottom: 5px; /* Reduced margin for less spacing between answers */
-    width: 100%; /* Ensure full width for answer containers */
+    width: calc(100% - 30px); /* Ensure full width minus padding */
+    box-sizing: border-box; /* Include padding/border in width/height calculations */
 }
 
 /* Override Bootstrap Hover Effect */
@@ -55,8 +81,8 @@ body {
 }
 
 /* Output Area for JSON in Quiz Generator */
-#output, #quiz-timer {
-    width: 100%;
+#output {
+    width: calc(100% - 30px); /* Ensure full width minus padding */
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
@@ -66,7 +92,7 @@ body {
     background-color: #f7f7f7;
     font-size: 14px;
     font-family: monospace;
-    text-align: center; /* Center align text within timer */
+    text-align: center; /* Center align text within output */
 }
 
 /* Status Messages */
@@ -75,4 +101,53 @@ body {
     font-size: 16px;
     margin-bottom: 15px;
     text-align: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    #quiz-container {
+        padding: 15px; /* Adjust padding for smaller screens */
+        margin-top: 10px; /* Reduce margin */
+    }
+
+    .checkbox-label {
+        width: 100%; /* Ensure full width on smaller screens */
+    }
+
+    .btn {
+        width: 100%; /* Ensure full width on smaller screens */
+        max-width: 100%; /* Remove max-width restriction */
+    }
+
+    #quiz-timer, #output {
+        font-size: 12px; /* Reduce font size for better fit */
+    }
+}
+
+/* Ensure images fit within their container */
+img.img-fluid {
+    max-width: 100%;
+    height: auto;
+    box-sizing: border-box; /* Include padding/border in width/height calculations */
+}
+
+/* Ensure buttons fit within their container */
+.btn {
+    max-width: 100%;
+    box-sizing: border-box; /* Include padding/border in width/height calculations */
+}
+
+/* Flex Container and Items */
+.flex-container {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Prevent overflow of flex items */
+.flex-container > * {
+    max-width: 100%;
+    box-sizing: border-box;
 }

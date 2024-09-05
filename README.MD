@@ -12,3 +12,7 @@
 - git checkout <branch-name>
 - git merge master
 - repeat for all branches
+
+# start quiz
+- use command: python -m http.server 8000
+- open http://localhost:8000/quiz.html in browser
