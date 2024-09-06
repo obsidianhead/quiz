@@ -82,7 +82,7 @@ function createChapterSelection() {
     container.appendChild(startButton);
 }
 
-function startQuiz(chapter) {
+function  startQuiz(chapter) {
     filteredQuestions = allQuestions.filter(q => q.chapter == chapter).sort(() => Math.random() - 0.5);
     currentQuestionIndex = 0;
     correctAnswers = 0;

@@ -6,7 +6,7 @@ body {
     justify-content: center;
     align-items: flex-start; /* Align items to the top to prevent cut-off */
     min-height: 100vh;
-    margin: 0;
+    margin: 0 auto;
     padding: 20px; /* Add padding to ensure content isn't cut off */
     box-sizing: border-box; /* Include padding in width/height calculations */
     overflow: auto; /* Allow scrolling if content is too tall */
