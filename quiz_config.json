@@ -1,4 +1,29 @@
 {
     "courseName": "Introduction to Geography",
-    "chapters":[1,2,3,4,5,6]
+    "chapters": [
+        {
+            "number": 1,
+            "name": "Chapter 1: The Earth"
+        },
+        {
+            "number": 2,
+            "name": "Chapter 2: Climate and Weather"
+        },
+        {
+            "number": 3,
+            "name": "Chapter 3: Landforms"
+        },
+        {
+            "number": 4,
+            "name": "Chapter 4: Water Bodies"
+        },
+        {
+            "number": 5,
+            "name": "Chapter 5: Natural Resources"
+        },
+        {
+            "number": 6,
+            "name": "Chapter 6: Human Geography"
+        }
+    ]
 }

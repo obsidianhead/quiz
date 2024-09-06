@@ -32,7 +32,7 @@
                 <textarea id="question" name="question" class="form-control" rows="3" required></textarea>
             </div>
 
-            <!-- New Dropdown for Optional Image Selection -->
+            <!-- Dropdown for Optional Image Selection -->
             <div class="form-group">
                 <label for="image-select">Select Image (optional):</label>
                 <select id="image-select" name="image-select" class="form-control">
@@ -85,7 +85,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <!-- Your script.js file -->
+    <!-- JavaScript for quiz question generator -->
     <script>
         let questions = [];
         let config = {
@@ -93,11 +93,11 @@
             chapters: []
         };
         let images = []; // To store available images
+        let selectedChapter = null; // Track the currently selected chapter
 
         // Load existing questions and configuration JSON automatically
         document.addEventListener('DOMContentLoaded', () => {
             loadConfigJSON();
-            loadExistingJSON();
             loadImagesFromAssets(); // Load images from assets folder
         });
 
@@ -117,33 +117,50 @@
         }
 
         function populateFormOptions() {
-        const chapterSelect = document.getElementById('chapter');
-        const imageSelect = document.getElementById('image-select');
+            const chapterSelect = document.getElementById('chapter');
+            const imageSelect = document.getElementById('image-select');
 
-        // Clear existing options
-        chapterSelect.innerHTML = '';
-        imageSelect.innerHTML = '<option value="">None</option>'; // Reset image options with the default "None"
+            // Clear existing options
+            chapterSelect.innerHTML = '';
+            imageSelect.innerHTML = '<option value="">None</option>'; // Reset image options with the default "None"
 
-        // Populate chapters
-        config.chapters.forEach(chapter => {
-        const option = document.createElement('option');
-        option.value = chapter;
-        option.textContent = `Chapter ${chapter}`;
-        chapterSelect.appendChild(option);
-        });
+            // Populate chapters
+            config.chapters.forEach(chapter => {
+            const option = document.createElement('option');
+                option.value = chapter.number; // Store the chapter number in the value
+                option.textContent = chapter.name; // Display the chapter name
+                chapterSelect.appendChild(option);
+                });
 
-        // Populate images
-        images.forEach(image => {
-        const option = document.createElement('option');
-        option.value = `assets/${image}`;
-        option.textContent = image;
-        imageSelect.appendChild(option);
-        });
-        }
+            // Populate images
+            images.forEach(image => {
+            const option = document.createElement('option');
+            option.value = `assets/${image}`;
+            option.textContent = image;
+            imageSelect.appendChild(option);
+            });
+// Set a change event listener to load the questions for the selected chapter
+chapterSelect.addEventListener('change', function () {
+selectedChapter = this.value;
+loadExistingJSON(selectedChapter); // Load questions from the selected chapter
+});
 
+// Trigger loadExistingJSON for the default chapter (first option) if exists
+if (chapterSelect.options.length > 0) {
+selectedChapter = chapterSelect.options[0].value;
+loadExistingJSON(selectedChapter);
+}
+}
 
-        function loadExistingJSON() {
-            fetch('questions.json')
+function loadExistingJSON(chapter) {
+if (!chapter) {
+document.getElementById('status').innerText = 'Please select a chapter.';
+return;
+            }
+
+            const chapterQuestionsFile = `./chapters/${chapter}/questions.json`; // Load chapter-specific questions.json
+
+            fetch(chapterQuestionsFile)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Failed to load existing questions. Starting with an empty set.');
@@ -153,13 +170,14 @@
                 .then(data => {
                     questions = Array.isArray(data) ? data : [];
                     updateOutput();
-                    document.getElementById('status').innerText = 'Loaded existing questions.json successfully!';
+                    document.getElementById('status').innerText =
+                    `Loaded questions for Chapter ${chapter} successfully!`;
                 })
                 .catch(error => {
                     console.error('Error loading JSON:', error);
                     questions = []; // Start with an empty array if loading fails
                     document.getElementById('status').innerText =
-                        'Failed to load existing questions.json. Starting with an empty set.';
+                        `Failed to load questions for Chapter ${chapter}. Starting with an empty set.`;
                 });
         }
 
@@ -178,56 +196,49 @@
         }
 
         function addQuestion() {
-        const chapter = document.getElementById('chapter').value;
-        const questionText = document.getElementById('question').value;
-        const imageUrl = document.getElementById('image-select').value; // Get the selected image URL
-        const answersElements = document.querySelectorAll('input[name="answer"]'); // Select by name
-        const correctElement = document.querySelector('input[name="correct"]:checked');
+            const chapter = document.getElementById('chapter').value;
+            const questionText = document.getElementById('question').value;
+            const imageUrl = document.getElementById('image-select').value; // Get the selected image URL
+            const answersElements = document.querySelectorAll('input[name="answer"]'); // Select by name
+            const correctElement = document.querySelector('input[name="correct"]:checked');
 
-        if (!correctElement) {
-        alert('Please select a correct answer.');
-        return;
-        }
+            if (!correctElement) {
+            alert('Please select a correct answer.');
+            return;
+            }
 
-        const correctIndex = parseInt(correctElement.value);
+            const correctIndex = parseInt(correctElement.value);
 
-        let answers = [];
+            let answers = [];
 
-        // Check if answer elements are selected correctly
-        console.log('Answer Elements NodeList:', answersElements);
+            answersElements.forEach((answerElement, index) => {
+            const answerText = answerElement.value.trim();
 
-        // Loop through NodeList and log each element's value
-        answersElements.forEach((answerElement, index) => {
-        const answerText = answerElement.value.trim();
-        console.log(`Answer ${index + 1} Text:`, answerText);
+                if (answerText) {
+                answers.push({
+                text: answerText,
+                correct: index === correctIndex // Determine if this is the correct answer
+                });
+                }
+                });
 
-        if (answerText) {
-        answers.push({
-        text: answerText,
-        correct: index === correctIndex // Determine if this is the correct answer
-        });
-        }
-        });
+            // Validate that there are actually answers
+            if (answers.length === 0) {
+            alert('Please provide at least one answer.');
+            return;
+            }
 
-        // Log the final answers array to check if they are being populated
-        console.log('Populated Answers Array:', answers);
+            const questionObject = {
+                question: questionText,
+                image: imageUrl ? imageUrl : null, // Include image URL if selected
+                answers: answers
+                };
 
-        // Validate that there are actually answers
-        if (answers.length === 0) {
-        alert('Please provide at least one answer.');
-        return;
-        }
-
-        const questionObject = {
-        chapter: parseInt(chapter),
-        question: questionText,
-        image: imageUrl ? imageUrl : null, // Include image URL if selected
-        answers: answers
-        };
-
-        questions.push(questionObject);
-        document.getElementById('question-form').reset();
-        updateOutput();
+            questions.push(questionObject);
+            document.getElementById('question-form').reset();
+            updateOutput();
+// Ensure the questions for the current chapter are reloaded after adding the question
+loadExistingJSON(chapter);
         }
 
         function updateOutput() {
@@ -235,10 +246,15 @@
         }
 
         function downloadJSON() {
+            if (!selectedChapter) {
+            alert('Please select a chapter to download questions for.');
+            return;
+            }
+
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(questions, null, 2));
             const downloadAnchorNode = document.createElement('a');
             downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", "questions.json");
+            downloadAnchorNode.setAttribute("download", `questions_chapter_${selectedChapter}.json`);
             document.body.appendChild(downloadAnchorNode);
             downloadAnchorNode.click();
             downloadAnchorNode.remove();

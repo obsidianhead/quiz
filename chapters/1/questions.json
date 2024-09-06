@@ -1,6 +1,5 @@
 [
   {
-    "chapter": 1,
     "question": "What is the capital of France?",
     "image": "assets/paris.jpg",
     "answers": [
@@ -23,7 +22,6 @@
     ]
   },
   {
-    "chapter": 2,
     "question": "What is the largest planet in our Solar System?",
     "image": "assets/jupiter.jpg",
     "answers": [
@@ -46,7 +44,6 @@
     ]
   },
   {
-    "chapter": 3,
     "question": "What is the smallest country in the world?",
     "image": null,
     "answers": [
@@ -69,30 +66,28 @@
     ]
   },
   {
-    "chapter": 1,
     "question": "Where is the pope?",
     "image": "assets/vatican_city.jpg",
     "answers": [
       {
-        "text": "vatican city",
+        "text": "Vatican City",
         "correct": true
       },
       {
-        "text": "hard rock cafe",
+        "text": "Hard Rock Cafe",
         "correct": false
       },
       {
-        "text": "moon",
+        "text": "Moon",
         "correct": false
       },
       {
-        "text": "jail",
+        "text": "Jail",
         "correct": false
       }
     ]
   },
   {
-    "chapter": 1,
     "question": "test",
     "image": null,
     "answers": [
@@ -115,24 +110,23 @@
     ]
   },
   {
-    "chapter": 1,
-    "question": "this is another test?",
+    "question": "This is another test?",
     "image": null,
     "answers": [
       {
-        "text": "yes",
+        "text": "Yes",
         "correct": true
       },
       {
-        "text": "no",
+        "text": "No",
         "correct": false
       },
       {
-        "text": "no",
+        "text": "No",
         "correct": false
       },
       {
-        "text": "no",
+        "text": "No",
         "correct": false
       }
     ]

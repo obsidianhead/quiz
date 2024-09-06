@@ -1,6 +1,7 @@
 let allQuestions, filteredQuestions, currentQuestionIndex, correctAnswers, incorrectAnswers, timer;
 let timeLeft; // This will now be dynamically calculated based on the number of questions
 let config = { courseName: '', chapters: [] }; // To store course name and chapters
+let selectedChapterName = ''; // To store the selected chapter name
 
 document.addEventListener('DOMContentLoaded', () => {
     // Load config and set course name
@@ -19,22 +20,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Error loading configuration JSON:', error);
             alert('Failed to load configuration. Please check quiz_config.json.');
-        });
-
-    // Load questions
-    fetch('questions.json')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to load questions.json');
-            }
-            return response.json();
-        })
-        .then(data => {
-            allQuestions = data;
-        })
-        .catch(error => {
-            console.error('Error loading questions:', error);
-            alert('Failed to load questions. Please check questions.json.');
         });
 });
 
@@ -57,12 +42,12 @@ function createChapterSelection() {
     select.style.maxWidth = '300px';
     select.style.margin = '0 auto';
 
-    // Ensure config.chapters is an array and iterate over it
+    // Populate chapter selection using the new object structure (number and name)
     if (Array.isArray(config.chapters) && config.chapters.length > 0) {
         config.chapters.forEach(chapter => {
             const option = document.createElement('option');
-            option.value = chapter;
-            option.textContent = `Chapter ${chapter}`;
+            option.value = chapter.number;  // Store the chapter number
+            option.textContent = chapter.name;  // Display the chapter name
             select.appendChild(option);
         });
     } else {
@@ -77,24 +62,58 @@ function createChapterSelection() {
     const startButton = document.createElement('button');
     startButton.innerText = 'Start Quiz';
     startButton.className = 'btn btn-primary mt-3';
-    startButton.onclick = () => startQuiz(select.value);
+    startButton.onclick = () => {
+        const selectedChapter = select.value;
+        const selectedChapterObject = config.chapters.find(chapter => chapter.number == selectedChapter);
+        selectedChapterName = selectedChapterObject.name; // Store the chapter name
+        startQuiz(selectedChapter);
+    };
 
     container.appendChild(startButton);
 }
 
-function  startQuiz(chapter) {
-    filteredQuestions = allQuestions.filter(q => q.chapter == chapter).sort(() => Math.random() - 0.5);
-    currentQuestionIndex = 0;
-    correctAnswers = 0;
-    incorrectAnswers = []; // Initialize the incorrect answers array
+function startQuiz(chapterNumber) {
+    // Construct the path to the specific chapter's questions file based on the chapter number
+    const chapterQuestionsFile = `./chapters/${chapterNumber}/questions.json`;
 
-    // Calculate the total time based on the number of questions
-    timeLeft = filteredQuestions.length * 60; // 1 minute per question (60 seconds)
+    // Fetch the questions for the selected chapter
+    fetch(chapterQuestionsFile)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to load questions from ${chapterQuestionsFile}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Shuffle the questions and store them
+            filteredQuestions = data.sort(() => Math.random() - 0.5);
+            currentQuestionIndex = 0;
+            correctAnswers = 0;
+            incorrectAnswers = []; // Initialize the incorrect answers array
 
-    document.getElementById('quiz-container').innerHTML = ''; // Clear chapter selection UI
-    showQuizTimer();  // Ensure timer is displayed
-    startQuizTimer();
-    setNextQuestion();
+            // Calculate the total time based on the number of questions
+            timeLeft = filteredQuestions.length * 60; // 1 minute per question (60 seconds)
+
+            document.getElementById('quiz-container').innerHTML = ''; // Clear chapter selection UI
+            showQuizTimer();  // Ensure timer is displayed
+            startQuizTimer(); // Start the quiz timer
+            setNextQuestion(); // Display the first question
+        })
+        .catch(error => {
+            console.error('Error loading questions:', error);
+            alert(`Failed to load questions for chapter ${chapterNumber}. Please check if the file exists.`);
+        });
+}
+
+function startQuizTimer() {
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById('quiz-timer').innerText = `Time Left: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')} minutes`;
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            endQuiz(); // End quiz when time runs out
+        }
+    }, 1000); // Timer updates every second
 }
 
 function showQuizTimer() {
@@ -130,7 +149,13 @@ function showQuestion(question) {
     const container = document.getElementById('quiz-container');
 
     // Ensure the parent container fills the available space
-    container.className = 'w-100 d-flex justify-content-center'; // Updated to ensure the container takes full width
+    container.className = 'w-100 d-flex flex-column justify-content-center'; // Updated to ensure the container takes full width
+
+    // Display the chapter name at the top of the quiz
+    const chapterNameElement = document.createElement('h2');
+    chapterNameElement.className = 'text-center mb-3';
+    chapterNameElement.innerText = selectedChapterName;
+    container.appendChild(chapterNameElement);
 
     // Adjust the card to fill the width of the parent container
     const questionElement = document.createElement('div');
@@ -157,7 +182,8 @@ function showQuestion(question) {
     answerButtonsElement.id = 'answer-buttons';
     answerButtonsElement.className = 'd-flex flex-column align-items-start mt-3';
 
-    question.answers.forEach((answer, index) => {
+    // Shuffle the answers before displaying them
+    question.answers.sort(() => Math.random() - 0.5).forEach((answer, index) => {
         const radioLabel = document.createElement('label');
         radioLabel.className = 'btn btn-outline-secondary text-left mb-2 w-100'; // Ensure full width for buttons
 
@@ -220,17 +246,6 @@ function nextQuestion() {
     } else {
         endQuiz();
     }
-}
-
-function startQuizTimer() {
-    timer = setInterval(() => {
-        timeLeft--;
-        document.getElementById('quiz-timer').innerText = `Time Left: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')} minutes`;
-        if (timeLeft <= 0) {
-            clearInterval(timer);
-            endQuiz(); // End quiz when time runs out
-        }
-    }, 1000);
 }
 
 function endQuiz() {
