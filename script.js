@@ -1,27 +1,86 @@
 let allQuestions, filteredQuestions, currentQuestionIndex, correctAnswers, incorrectAnswers, timer;
 let timeLeft; // This will now be dynamically calculated based on the number of questions
 let config = { courseName: '', chapters: [] }; // To store course name and chapters
+let selectedCourse = ''; // To store selected course
 let selectedChapterName = ''; // To store the selected chapter name
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Load config and set course name
-    fetch('quiz_config.json')
+    // Create course selection dropdown
+    createCourseSelection();
+});
+
+// Create Course Selection Dropdown
+function createCourseSelection() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = ''; // Clear previous content
+
+    const courseSelectLabel = document.createElement('label');
+    courseSelectLabel.innerText = "Select a Course:";
+    courseSelectLabel.className = 'mb-2';
+
+    const courseSelect = document.createElement('select');
+    courseSelect.id = 'course-select';
+    courseSelect.className = 'custom-select';
+    courseSelect.style.maxWidth = '300px';
+    courseSelect.style.margin = '0 auto';
+
+    // Populate courses (you can fetch these dynamically if needed)
+    const courses = [
+        { id: 'CET127', name: 'CET127: Construction Engineering' },
+        { id: 'CET128', name: 'CET128: Advanced Engineering' }
+    ];
+
+    courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>';
+    courses.forEach(course => {
+        const option = document.createElement('option');
+        option.value = course.id;
+        option.textContent = course.name;
+        courseSelect.appendChild(option);
+    });
+
+    container.appendChild(courseSelectLabel);
+    container.appendChild(courseSelect);
+
+    const startButton = document.createElement('button');
+    startButton.innerText = 'Next';
+    startButton.className = 'btn btn-primary mt-3';
+    startButton.disabled = true;
+
+    // Enable start button once course is selected
+    courseSelect.addEventListener('change', () => {
+        startButton.disabled = !courseSelect.value;
+        selectedCourse = courseSelect.value;
+    });
+
+    startButton.onclick = () => {
+        if (selectedCourse) {
+            loadCourseConfig(selectedCourse);
+        }
+    };
+
+    container.appendChild(startButton);
+}
+
+// Load course config and create chapter selection
+function loadCourseConfig(courseId) {
+    const configPath = `./data/${courseId}/quiz_config.json`;
+
+    fetch(configPath)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Failed to load quiz_config.json');
+                throw new Error('Failed to load course config.');
             }
             return response.json();
         })
         .then(data => {
             config = data;
-            document.title = config.courseName; // Set the document title to course name
-            createChapterSelection();
+            createChapterSelection(); // Move to chapter selection after course config is loaded
         })
         .catch(error => {
-            console.error('Error loading configuration JSON:', error);
-            alert('Failed to load configuration. Please check quiz_config.json.');
+            console.error('Error loading course config:', error);
+            alert('Failed to load course configuration. Please check the file.');
         });
-});
+}
 
 function createChapterSelection() {
     const container = document.getElementById('quiz-container');
@@ -44,6 +103,7 @@ function createChapterSelection() {
 
     // Populate chapter selection using the new object structure (number and name)
     if (Array.isArray(config.chapters) && config.chapters.length > 0) {
+        select.innerHTML = '<option value="" disabled selected>Select a chapter</option>';
         config.chapters.forEach(chapter => {
             const option = document.createElement('option');
             option.value = chapter.number;  // Store the chapter number
@@ -62,6 +122,12 @@ function createChapterSelection() {
     const startButton = document.createElement('button');
     startButton.innerText = 'Start Quiz';
     startButton.className = 'btn btn-primary mt-3';
+    startButton.disabled = true;
+
+    select.addEventListener('change', () => {
+        startButton.disabled = !select.value;
+    });
+
     startButton.onclick = () => {
         const selectedChapter = select.value;
         const selectedChapterObject = config.chapters.find(chapter => chapter.number == selectedChapter);
@@ -74,7 +140,7 @@ function createChapterSelection() {
 
 function startQuiz(chapterNumber) {
     // Construct the path to the specific chapter's questions file based on the chapter number
-    const chapterQuestionsFile = `./chapters/${chapterNumber}/questions.json`;
+    const chapterQuestionsFile = `./data/${selectedCourse}/chapters/${chapterNumber}/questions.json`;
 
     // Fetch the questions for the selected chapter
     fetch(chapterQuestionsFile)
@@ -105,6 +171,8 @@ function startQuiz(chapterNumber) {
         });
 }
 
+// The remaining quiz functions (showQuizTimer, setNextQuestion, etc.) stay the same
+
 function startQuizTimer() {
     timer = setInterval(() => {
         timeLeft--;
@@ -130,6 +198,11 @@ function showQuizTimer() {
     container.insertBefore(timerElement, container.firstChild); // Insert timer at the top of the container
 }
 
+function setNextQuestion() {
+    resetState();
+    showQuestion(filteredQuestions[currentQuestionIndex]);
+}
+
 function resetState() {
     const container = document.getElementById('quiz-container');
     while (container.firstChild) {
@@ -138,11 +211,6 @@ function resetState() {
 
     // Call showQuizTimer() to display the timer at the top
     showQuizTimer();
-}
-
-function setNextQuestion() {
-    resetState();
-    showQuestion(filteredQuestions[currentQuestionIndex]);
 }
 
 function showQuestion(question) {
