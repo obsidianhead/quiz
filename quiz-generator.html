@@ -149,8 +149,8 @@
             fetch(`./data/${courseId}/quiz_config.json`)
                 .then(response => response.json())
                 .then(data => {
-                config = data;
-                document.getElementById('course-name').innerText = config.courseName;
+                    config = data;
+                    document.getElementById('course-name').innerText = config.courseName;
 
                     // Populate chapters
                     config.chapters.forEach(chapter => {
@@ -170,14 +170,14 @@
                 .catch(error => {
                     console.error('Error loading chapters:', error);
                     document.getElementById('status').innerText =
-                    'Failed to load chapters for the selected course.';
+                        'Failed to load chapters for the selected course.';
                 });
         }
 
         function loadExistingJSON(chapter) {
             if (!chapter) {
-            document.getElementById('status').innerText = 'Please select a chapter.';
-            return;
+                document.getElementById('status').innerText = 'Please select a chapter.';
+                return;
             }
 
             const chapterQuestionsFile = `./data/${selectedCourse}/chapters/${chapter}/questions.json`;
@@ -225,15 +225,14 @@
 
             // Populate images
             images.forEach(image => {
-            const option = document.createElement('option');
-            option.value = `assets/${image}`;
-            option.textContent = image;
-            imageSelect.appendChild(option);
+                const option = document.createElement('option');
+                option.value = `assets/${image}`;
+                option.textContent = image;
+                imageSelect.appendChild(option);
             });
         }
 
         function addQuestion() {
-            const chapter = document.getElementById('chapter').value;
             const questionText = document.getElementById('question').value;
             const imageUrl = document.getElementById('image-select').value;
             const solutionText = document.getElementById('solution').value; // Get the solution
@@ -271,10 +270,15 @@
                 solution: solutionText ? solutionText : null // Include the solution if provided
             };
 
+            // Append the new question to the loaded questions array
             questions.push(questionObject);
-            document.getElementById('question-form').reset();
+// Update the displayed output without resetting the form
             updateOutput();
-            loadExistingJSON(chapter);
+// Optionally clear the answer fields, but keep course and chapter selections
+document.querySelectorAll('input[name="answer"]').forEach(input => input.value = '');
+document.querySelector('textarea[name="question"]').value = '';
+document.querySelector('textarea[name="solution"]').value = '';
+document.querySelector('input[name="correct"]:checked').checked = false;
         }
 
         function updateOutput() {
