@@ -1,0 +1,12 @@
+{
+    "courses": [
+        {
+            "id": "CET127",
+            "name": "CET127: Construction Engineering"
+        },
+        {
+            "id": "CET128",
+            "name": "CET128: Advanced Engineering"
+        }
+    ]
+}

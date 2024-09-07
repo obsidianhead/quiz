@@ -13,7 +13,7 @@
 <body>
     <div id="form-container" class="container my-5 p-4 bg-white rounded shadow">
         <!-- Display Course Name Here -->
-        <h1 id="course-name" class="text-center mb-4"></h1>
+        <h1 id="course-name" class="text-center mb-4">Select Course</h1>
         <h2 class="text-center mb-4">Add Quiz Question</h2>
 
         <!-- Status message for loading JSON -->
@@ -21,9 +21,16 @@
 
         <form id="question-form" class="mb-4">
             <div class="form-group">
+                <label for="course">Course:</label>
+                <select id="course" name="course" class="form-control" required>
+                    <!-- Course options will be populated dynamically -->
+                </select>
+            </div>
+
+            <div class="form-group">
                 <label for="chapter">Chapter:</label>
-                <select id="chapter" name="chapter" class="form-control" required>
-                    <!-- Options will be populated dynamically -->
+                <select id="chapter" name="chapter" class="form-control" required disabled>
+                    <!-- Chapter options will be populated dynamically after course is selected -->
                 </select>
             </div>
 
@@ -93,77 +100,86 @@
             chapters: []
         };
         let images = []; // To store available images
-        let selectedChapter = null; // Track the currently selected chapter
+        let selectedCourse = null; // Track the selected course
+        let selectedChapter = null; // Track the selected chapter
 
-        // Load existing questions and configuration JSON automatically
+        // Load courses, chapters, and configuration JSON automatically
         document.addEventListener('DOMContentLoaded', () => {
-            loadConfigJSON();
+            loadCourses(); // Load available courses
             loadImagesFromAssets(); // Load images from assets folder
         });
 
-        function loadConfigJSON() {
-            fetch('quiz_config.json')
+        function loadCourses() {
+        fetch('courses.json') // Assuming there's a JSON file listing available courses
                 .then(response => response.json())
                 .then(data => {
-                    config = data;
-                    populateFormOptions();
-                    document.getElementById('course-name').innerText = config.courseName; // Set course name
+                    const courseSelect = document.getElementById('course');
+                    courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>';
+
+                    data.courses.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course.id; // Assuming courses have an 'id' field
+                    option.textContent = course.name;
+                    courseSelect.appendChild(option);
+                    });
+
+                    // Trigger chapter loading when a course is selected
+                    courseSelect.addEventListener('change', function () {
+                    selectedCourse = this.value;
+                    loadChapters(selectedCourse); // Load chapters for the selected course
+                    });
                 })
                 .catch(error => {
-                    console.error('Error loading configuration JSON:', error);
-                    document.getElementById('status').innerText =
-                        'Failed to load configuration. Please check quiz_config.json.';
+                    console.error('Error loading courses:', error);
+                    document.getElementById('status').innerText = 'Failed to load courses. Please check the file.';
                 });
         }
 
-        function populateFormOptions() {
+        function loadChapters(courseId) {
             const chapterSelect = document.getElementById('chapter');
-            const imageSelect = document.getElementById('image-select');
+            chapterSelect.disabled = true; // Disable the chapter select until chapters are loaded
+            chapterSelect.innerHTML = '<option value="" disabled selected>Select a chapter</option>';
 
-            // Clear existing options
-            chapterSelect.innerHTML = '';
-            imageSelect.innerHTML = '<option value="">None</option>'; // Reset image options with the default "None"
+            fetch(`./data/${courseId}/quiz_config.json`)
+            .then(response => response.json())
+            .then(data => {
+            config = data;
+            document.getElementById('course-name').innerText = config.courseName;
 
-            // Populate chapters
-            config.chapters.forEach(chapter => {
-            const option = document.createElement('option');
-                option.value = chapter.number; // Store the chapter number in the value
-                option.textContent = chapter.name; // Display the chapter name
-                chapterSelect.appendChild(option);
+                    // Populate chapters
+                    config.chapters.forEach(chapter => {
+                    const option = document.createElement('option');
+                        option.value = chapter.number; // Store chapter number in value
+                        option.textContent = chapter.name; // Display chapter name
+                        chapterSelect.appendChild(option);
+                        });
+
+                    chapterSelect.disabled = false; // Enable chapter selection
+
+                    chapterSelect.addEventListener('change', function () {
+                    selectedChapter = this.value;
+                        loadExistingJSON(selectedChapter); // Load questions for the selected chapter
+                        });
+                })
+                .catch(error => {
+                console.error('Error loading chapters:', error);
+                document.getElementById('status').innerText =
+                'Failed to load chapters for the selected course.';
                 });
+                }
 
-            // Populate images
-            images.forEach(image => {
-            const option = document.createElement('option');
-            option.value = `assets/${image}`;
-            option.textContent = image;
-            imageSelect.appendChild(option);
-            });
-// Set a change event listener to load the questions for the selected chapter
-chapterSelect.addEventListener('change', function () {
-selectedChapter = this.value;
-loadExistingJSON(selectedChapter); // Load questions from the selected chapter
-});
-
-// Trigger loadExistingJSON for the default chapter (first option) if exists
-if (chapterSelect.options.length > 0) {
-selectedChapter = chapterSelect.options[0].value;
-loadExistingJSON(selectedChapter);
-}
-}
-
-function loadExistingJSON(chapter) {
-if (!chapter) {
-document.getElementById('status').innerText = 'Please select a chapter.';
-return;
+        function loadExistingJSON(chapter) {
+        if (!chapter) {
+        document.getElementById('status').innerText = 'Please select a chapter.';
+        return;
             }
 
-            const chapterQuestionsFile = `./chapters/${chapter}/questions.json`; // Load chapter-specific questions.json
+            const chapterQuestionsFile = `./data/${selectedCourse}/chapters/${chapter}/questions.json`;
 
             fetch(chapterQuestionsFile)
                 .then(response => {
                     if (!response.ok) {
-                        throw new Error('Failed to load existing questions. Starting with an empty set.');
+                        throw new Error('Failed to load existing questions.');
                     }
                     return response.json();
                 })
@@ -171,7 +187,7 @@ return;
                     questions = Array.isArray(data) ? data : [];
                     updateOutput();
                     document.getElementById('status').innerText =
-                    `Loaded questions for Chapter ${chapter} successfully!`;
+                        `Loaded questions for Chapter ${chapter} successfully!`;
                 })
                 .catch(error => {
                     console.error('Error loading JSON:', error);
@@ -195,50 +211,62 @@ return;
                 });
         }
 
+        function populateFormOptions() {
+        const imageSelect = document.getElementById('image-select');
+
+        // Clear existing options
+        imageSelect.innerHTML = '<option value="">None</option>'; // Reset image options with the default "None"
+
+        // Populate images
+        images.forEach(image => {
+        const option = document.createElement('option');
+        option.value = `assets/${image}`;
+        option.textContent = image;
+        imageSelect.appendChild(option);
+        });
+        }
+
         function addQuestion() {
             const chapter = document.getElementById('chapter').value;
             const questionText = document.getElementById('question').value;
-            const imageUrl = document.getElementById('image-select').value; // Get the selected image URL
-            const answersElements = document.querySelectorAll('input[name="answer"]'); // Select by name
+            const imageUrl = document.getElementById('image-select').value;
+            const answersElements = document.querySelectorAll('input[name="answer"]');
             const correctElement = document.querySelector('input[name="correct"]:checked');
 
             if (!correctElement) {
-            alert('Please select a correct answer.');
-            return;
+                alert('Please select a correct answer.');
+                return;
             }
 
             const correctIndex = parseInt(correctElement.value);
-
             let answers = [];
 
             answersElements.forEach((answerElement, index) => {
-            const answerText = answerElement.value.trim();
+                const answerText = answerElement.value.trim();
 
                 if (answerText) {
-                answers.push({
-                text: answerText,
-                correct: index === correctIndex // Determine if this is the correct answer
-                });
+                    answers.push({
+                    text: answerText,
+                    correct: index === correctIndex // Determine if this is the correct answer
+                    });
                 }
-                });
+            });
 
-            // Validate that there are actually answers
             if (answers.length === 0) {
-            alert('Please provide at least one answer.');
-            return;
+                alert('Please provide at least one answer.');
+                return;
             }
 
             const questionObject = {
                 question: questionText,
                 image: imageUrl ? imageUrl : null, // Include image URL if selected
                 answers: answers
-                };
+            };
 
             questions.push(questionObject);
             document.getElementById('question-form').reset();
             updateOutput();
-// Ensure the questions for the current chapter are reloaded after adding the question
-loadExistingJSON(chapter);
+            loadExistingJSON(chapter);
         }
 
         function updateOutput() {
@@ -247,8 +275,8 @@ loadExistingJSON(chapter);
 
         function downloadJSON() {
             if (!selectedChapter) {
-            alert('Please select a chapter to download questions for.');
-            return;
+                alert('Please select a chapter to download questions for.');
+                return;
             }
 
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(questions, null, 2));
