@@ -19,7 +19,8 @@
                 "text": "none of the above",
                 "correct": false
             }
-        ]
+        ],
+        "solution": "A print is often referred to as a working drawing or plan. For more details, visit <a href='https://en.wikipedia.org/wiki/Technical_drawing' target='_blank'>this resource</a>."
     },
     {
         "question": "Most drawings used in construction are created as orthographic drawings. What is the top view called?",
@@ -41,7 +42,8 @@
                 "text": "none of the above",
                 "correct": false
             }
-        ]
+        ],
+        "solution": "The top view in orthographic drawings is called the **plan view**. Learn more about orthographic projections <a href='https://en.wikipedia.org/wiki/Orthographic_projection' target='_blank'>here</a>."
     },
     {
         "question": "Which answer best describes Orthographic projection?",
@@ -63,7 +65,8 @@
                 "text": "Orthographic projection is a drawing method that involves projecting the object onto multiple planes to reveal different sides. This technique often uses a perspective effect to create a sense of depth and three-dimensionality in the drawings.",
                 "correct": false
             }
-        ]
+        ],
+        "solution": "Orthographic projection is a method used to represent 3D objects in 2D. Here's the basic formula for calculating distances between points on a plane: $$d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$$"
     },
     {
         "question": "Which view(s) is not considered an orthographic view?",
@@ -85,7 +88,8 @@
                 "text": "none of the above",
                 "correct": true
             }
-        ]
+        ],
+        "solution": "All the views listed (top, front/back, and side) are considered orthographic views. Learn more <a href='https://en.wikipedia.org/wiki/Orthographic_projection' target='_blank'>here</a>."
     },
     {
         "question": "What view is used to show the interior construction of a building feature?",
@@ -107,7 +111,8 @@
                 "text": "elevation",
                 "correct": false
             }
-        ]
+        ],
+        "solution": "A **section** is a view used to show the interior construction of a building feature. For more information, see <a href='https://en.wikipedia.org/wiki/Section_(drawing)' target='_blank'>this explanation</a>."
     },
     {
         "question": "What is an enlarged view of a section or plan called?",
@@ -129,7 +134,8 @@
                 "text": "section",
                 "correct": false
             }
-        ]
+        ],
+        "solution": "An enlarged view of a section or plan is called a **detail**. Learn more about drawing details <a href='https://en.wikipedia.org/wiki/Detail_drawing' target='_blank'>here</a>."
     },
     {
         "question": "What is the purpose of a pictorial drawing?",
@@ -151,7 +157,8 @@
                 "text": "both construction and presentation purposes",
                 "correct": false
             }
-        ]
+        ],
+        "solution": "A **pictorial drawing** is primarily for presentation purposes. For further details, see <a href='https://en.wikipedia.org/wiki/Pictorial_drawing' target='_blank'>this link</a>."
     },
     {
         "question": "This is an image test",
@@ -173,6 +180,7 @@
                 "text": "test",
                 "correct": true
             }
-        ]
+        ],
+        "solution": "This question was an image test. For more information, see <a href='https://en.wikipedia.org/wiki/Paris' target='_blank'>Paris</a>."
     }
 ]

@@ -80,6 +80,12 @@
                 </div>
             </div>
 
+            <!-- Solution Field -->
+            <div class="form-group">
+                <label for="solution">Solution (optional):</label>
+                <textarea id="solution" name="solution" class="form-control" rows="3"></textarea>
+            </div>
+
             <button type="button" class="btn btn-primary btn-block" onclick="addQuestion()">Add Question</button>
         </form>
         <h3 class="text-center mb-4">Generated JSON</h3>
@@ -110,23 +116,23 @@
         });
 
         function loadCourses() {
-        fetch('courses.json') // Assuming there's a JSON file listing available courses
+            fetch('courses.json') // Assuming there's a JSON file listing available courses
                 .then(response => response.json())
                 .then(data => {
                     const courseSelect = document.getElementById('course');
                     courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>';
 
                     data.courses.forEach(course => {
-                    const option = document.createElement('option');
-                    option.value = course.id; // Assuming courses have an 'id' field
-                    option.textContent = course.name;
-                    courseSelect.appendChild(option);
+                        const option = document.createElement('option');
+                        option.value = course.id; // Assuming courses have an 'id' field
+                        option.textContent = course.name;
+                        courseSelect.appendChild(option);
                     });
 
                     // Trigger chapter loading when a course is selected
                     courseSelect.addEventListener('change', function () {
-                    selectedCourse = this.value;
-                    loadChapters(selectedCourse); // Load chapters for the selected course
+                        selectedCourse = this.value;
+                        loadChapters(selectedCourse); // Load chapters for the selected course
                     });
                 })
                 .catch(error => {
@@ -141,37 +147,37 @@
             chapterSelect.innerHTML = '<option value="" disabled selected>Select a chapter</option>';
 
             fetch(`./data/${courseId}/quiz_config.json`)
-            .then(response => response.json())
-            .then(data => {
-            config = data;
-            document.getElementById('course-name').innerText = config.courseName;
+                .then(response => response.json())
+                .then(data => {
+                config = data;
+                document.getElementById('course-name').innerText = config.courseName;
 
                     // Populate chapters
                     config.chapters.forEach(chapter => {
-                    const option = document.createElement('option');
+                        const option = document.createElement('option');
                         option.value = chapter.number; // Store chapter number in value
                         option.textContent = chapter.name; // Display chapter name
                         chapterSelect.appendChild(option);
-                        });
+                    });
 
                     chapterSelect.disabled = false; // Enable chapter selection
 
                     chapterSelect.addEventListener('change', function () {
-                    selectedChapter = this.value;
+                        selectedChapter = this.value;
                         loadExistingJSON(selectedChapter); // Load questions for the selected chapter
-                        });
+                    });
                 })
                 .catch(error => {
-                console.error('Error loading chapters:', error);
-                document.getElementById('status').innerText =
-                'Failed to load chapters for the selected course.';
+                    console.error('Error loading chapters:', error);
+                    document.getElementById('status').innerText =
+                    'Failed to load chapters for the selected course.';
                 });
-                }
+        }
 
         function loadExistingJSON(chapter) {
-        if (!chapter) {
-        document.getElementById('status').innerText = 'Please select a chapter.';
-        return;
+            if (!chapter) {
+            document.getElementById('status').innerText = 'Please select a chapter.';
+            return;
             }
 
             const chapterQuestionsFile = `./data/${selectedCourse}/chapters/${chapter}/questions.json`;
@@ -212,24 +218,25 @@
         }
 
         function populateFormOptions() {
-        const imageSelect = document.getElementById('image-select');
+            const imageSelect = document.getElementById('image-select');
 
-        // Clear existing options
-        imageSelect.innerHTML = '<option value="">None</option>'; // Reset image options with the default "None"
+            // Clear existing options
+            imageSelect.innerHTML = '<option value="">None</option>'; // Reset image options with the default "None"
 
-        // Populate images
-        images.forEach(image => {
-        const option = document.createElement('option');
-        option.value = `assets/${image}`;
-        option.textContent = image;
-        imageSelect.appendChild(option);
-        });
+            // Populate images
+            images.forEach(image => {
+            const option = document.createElement('option');
+            option.value = `assets/${image}`;
+            option.textContent = image;
+            imageSelect.appendChild(option);
+            });
         }
 
         function addQuestion() {
             const chapter = document.getElementById('chapter').value;
             const questionText = document.getElementById('question').value;
             const imageUrl = document.getElementById('image-select').value;
+            const solutionText = document.getElementById('solution').value; // Get the solution
             const answersElements = document.querySelectorAll('input[name="answer"]');
             const correctElement = document.querySelector('input[name="correct"]:checked');
 
@@ -246,8 +253,8 @@
 
                 if (answerText) {
                     answers.push({
-                    text: answerText,
-                    correct: index === correctIndex // Determine if this is the correct answer
+                        text: answerText,
+                        correct: index === correctIndex // Determine if this is the correct answer
                     });
                 }
             });
@@ -260,7 +267,8 @@
             const questionObject = {
                 question: questionText,
                 image: imageUrl ? imageUrl : null, // Include image URL if selected
-                answers: answers
+                answers: answers,
+                solution: solutionText ? solutionText : null // Include the solution if provided
             };
 
             questions.push(questionObject);

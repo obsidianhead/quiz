@@ -1,104 +1,121 @@
 /* General Styles for Both Pages */
 body {
     font-family: Arial, sans-serif;
-    background-color: #001f3f; /* Very dark blue background */
+    background-color: #eaeef2; /* Very dark blue background */
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* Align items to the top to prevent cut-off */
+    align-items: flex-start; /* Align items to the top */
     min-height: 100vh;
     margin: 0 auto;
-    padding: 20px; /* Add padding to ensure content isn't cut off */
+    padding: 20px;
     box-sizing: border-box; /* Include padding in width/height calculations */
     overflow: auto; /* Allow scrolling if content is too tall */
+    /* color: #f1f1f1; Light text color for contrast on dark background */
+    line-height: 1.6; /* Improve readability with increased line height */
 }
 
 /* Container Styles */
 #quiz-container {
-    background-color: white;
-    padding: 20px; /* Adjust padding if needed */
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    padding: 25px; /* Slightly increased padding for breathing space */
+    border-radius: 12px; /* More rounded corners for modern design */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow for depth */
     width: 100%;
-    max-width: 600px; /* Optional max-width for readability */
+    max-width: 640px; /* Increased max-width for better readability */
     text-align: center;
-    margin-top: 20px; /* Add margin to ensure it isn't too close to the top */
+    margin-top: 30px; /* More space from top */
     display: flex;
     flex-direction: column;
     align-items: center;
-    overflow: auto; /* Allow scrolling within the quiz container */
-    box-sizing: border-box; /* Include padding/border in width/height calculations */
+    overflow: auto;
+    box-sizing: border-box;
+    color: #333; /* Dark text for better readability on white background */
 }
 
 /* Timer Styles */
 #quiz-timer {
-    width: 100%; /* Ensure it spans the width of the container */
-    padding: 10px;
+    width: 100%;
+    padding: 15px; /* Increased padding for readability */
     border: 1px solid #ddd;
     border-radius: 8px;
-    margin-bottom: 20px; /* Space between timer and quiz content */
+    margin-bottom: 25px; /* Extra space between timer and content */
     box-sizing: border-box;
     background-color: #f7f7f7;
-    font-size: 14px;
+    font-size: 16px; /* Slightly larger font for timer */
     font-family: monospace;
-    text-align: center; /* Center align text within timer */
+    text-align: center;
+    color: #444; /* Darker text for contrast */
 }
 
 /* Card Styles */
 .card {
-    width: 100%; /* Ensure card takes up the full width of the container */
-    max-width: 100%; /* Prevent card from exceeding container width */
-    box-sizing: border-box; /* Include padding/border in width/height calculations */
-    margin: 0 auto; /* Center the card */
-    overflow: hidden; /* Prevent card overflow */
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    overflow: hidden;
+    background-color: #f9f9f9; /* Lighter card background for distinction */
+    border: 1px solid #e0e0e0; /* Subtle border for card */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1); /* Soft shadow */
 }
 
 /* Styling for Quiz Question Options */
 .checkbox-label {
     display: flex;
     align-items: center;
-    padding: 10px 15px; /* Increased padding for more space inside the container */
-    background-color: #e7f0ff; /* Subtle blue background for question container */
+    padding: 12px 18px; /* More padding for a comfortable click area */
+    background-color: #e7f0ff;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for hover effects */
-    margin-bottom: 5px; /* Reduced margin for less spacing between answers */
-    width: calc(100% - 30px); /* Ensure full width minus padding */
-    box-sizing: border-box; /* Include padding/border in width/height calculations */
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 10px; /* Increased margin for spacing between options */
+    width: 100%;
+    box-sizing: border-box;
+    cursor: pointer; /* Make entire label clickable */
+}
+
+.checkbox-label:hover {
+    background-color: #d0e0ff; /* Subtle hover effect */
 }
 
 /* Override Bootstrap Hover Effect */
 .btn-outline-secondary:hover {
-    background-color: #e0ecff !important; /* Slightly lighter blue on hover */
-    color: #333 !important; /* Maintain text color */
-    border-color: #d0e6ff !important; /* Subtle border color change */
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08); /* Very subtle shadow increase on hover */
+    background-color: #e0ecff !important;
+    color: #333 !important;
+    border-color: #cdd7ff !important; /* Lighter border color on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     cursor: pointer;
 }
 
-.checkbox-label input[type="radio"], .checkbox-label input[type="checkbox"] {
-    margin-right: 10px; /* Add space between input and answer text */
+.checkbox-label input[type="radio"],
+.checkbox-label input[type="checkbox"] {
+    margin-right: 12px;
     cursor: pointer;
 }
 
 /* Output Area for JSON in Quiz Generator */
 #output {
-    width: calc(100% - 30px); /* Ensure full width minus padding */
-    padding: 10px;
+    width: calc(100% - 30px);
+    padding: 12px;
     border: 1px solid #ddd;
     border-radius: 8px;
     margin-top: 20px;
     box-sizing: border-box;
     resize: none;
     background-color: #f7f7f7;
-    font-size: 14px;
+    font-size: 15px; /* Slightly larger font for output readability */
     font-family: monospace;
-    text-align: center; /* Center align text within output */
+    text-align: center;
+    color: #444;
 }
 
 /* Status Messages */
 #status {
-    color: #333;
-    font-size: 16px;
+    color: #ff4136; /* Brighter red for status messages */
+    font-size: 18px; /* Larger font size for prominence */
+    font-weight: bold; /* Bold text for emphasis */
     margin-bottom: 15px;
     text-align: center;
 }
@@ -106,21 +123,21 @@ body {
 /* Responsive adjustments */
 @media (max-width: 600px) {
     #quiz-container {
-        padding: 15px; /* Adjust padding for smaller screens */
-        margin-top: 10px; /* Reduce margin */
+        padding: 20px;
+        margin-top: 15px;
     }
 
     .checkbox-label {
-        width: 100%; /* Ensure full width on smaller screens */
+        width: 100%;
     }
 
     .btn {
-        width: 100%; /* Ensure full width on smaller screens */
-        max-width: 100%; /* Remove max-width restriction */
+        width: 100%;
+        max-width: 100%;
     }
 
     #quiz-timer, #output {
-        font-size: 12px; /* Reduce font size for better fit */
+        font-size: 14px; /* Reduced font size for smaller screens */
     }
 }
 
@@ -128,13 +145,13 @@ body {
 img.img-fluid {
     max-width: 100%;
     height: auto;
-    box-sizing: border-box; /* Include padding/border in width/height calculations */
+    box-sizing: border-box;
 }
 
 /* Ensure buttons fit within their container */
 .btn {
     max-width: 100%;
-    box-sizing: border-box; /* Include padding/border in width/height calculations */
+    box-sizing: border-box;
 }
 
 /* Flex Container and Items */
