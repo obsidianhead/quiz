@@ -5,12 +5,30 @@ let selectedCourse = ''; // To store selected course
 let selectedChapterName = ''; // To store the selected chapter name
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Create course selection dropdown
-    createCourseSelection();
+    // Fetch courses dynamically from courses.json and create course selection dropdown
+    fetchCourses();
 });
 
+// Fetch Courses from courses.json and create course selection dropdown
+function fetchCourses() {
+    fetch('courses.json')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to load courses.json.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            createCourseSelection(data.courses); // Pass the courses data to the selection function
+        })
+        .catch(error => {
+            console.error('Error loading courses:', error);
+            alert('Failed to load courses. Please check courses.json.');
+        });
+}
+
 // Create Course Selection Dropdown
-function createCourseSelection() {
+function createCourseSelection(courses) {
     const container = document.getElementById('quiz-container');
     container.innerHTML = ''; // Clear previous content
 
@@ -23,12 +41,6 @@ function createCourseSelection() {
     courseSelect.className = 'custom-select';
     courseSelect.style.maxWidth = '300px';
     courseSelect.style.margin = '0 auto';
-
-    // Populate courses (you can fetch these dynamically if needed)
-    const courses = [
-        { id: 'CET127', name: 'CET127: Construction Engineering' },
-        { id: 'CET128', name: 'CET128: Advanced Engineering' }
-    ];
 
     courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>';
     courses.forEach(course => {
