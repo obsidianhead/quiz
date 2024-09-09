@@ -1,6 +1,13 @@
 @echo off
 echo Setting up your environment...
 
+:: Save the current directory (the directory where the script is located)
+setlocal
+set "SCRIPT_DIR=%~dp0"
+cd /d "%SCRIPT_DIR%"
+
+@echo on
+
 :: Step 1: Check if Python is already installed
 python --version
 if %ERRORLEVEL% neq 0 (
