@@ -60,13 +60,59 @@ if exist requirements.txt (
 echo Downloading project ZIP from GitHub...
 powershell -Command "Invoke-WebRequest -Uri https://github.com/obsidianhead/quiz/archive/refs/heads/master.zip -OutFile project.zip"
 
-:: Step 5: Extract the ZIP file into the current directory
-echo Extracting the project...
+:: Step 5: Extract the ZIP file into the current directory (it will create a subfolder like 'quiz-master')
+echo Extracting the project into the current directory...
 powershell -Command "Expand-Archive -Path project.zip -DestinationPath . -Force"
 
 :: Step 6: Clean up the project ZIP file
 echo Cleaning up...
 del project.zip
 
-echo Setup completed. Python and the project have been extracted into the current directory.
+:: Step 7: Find the extracted folder name (assuming it's 'quiz-master')
+for /d %%D in (*) do (
+    if exist "%%D\README.md" (
+        set EXTRACTED_FOLDER=%%D
+        echo Project extracted into folder: %%D
+    )
+)
+
+:: Step 8: Navigate into the extracted folder
+cd "%EXTRACTED_FOLDER%"
+
+:: Step 9: Create 'data' and 'assets' directories inside the extracted folder
+echo Creating 'data' and 'assets' directories inside the extracted project folder...
+mkdir data
+mkdir assets
+
+:: Step 10: Navigate into the 'data' directory
+cd data
+
+:: Step 11: Download and extract repo1 (CET127) and rename its folder
+
+:: First repository (CET127)
+echo Downloading and extracting first repository (CET127)...
+powershell -Command "Invoke-WebRequest -Uri https://github.com/obsidianhead/cet127/archive/refs/heads/master.zip -OutFile repo1.zip"
+powershell -Command "Expand-Archive -Path repo1.zip -DestinationPath CET127 -Force"
+del repo1.zip
+
+:: Move contents of 'cet127-master' to 'CET127' and delete 'cet127-master' folder
+echo Moving contents of 'cet127-master' to 'CET127'...
+xcopy CET127\cet127-master\* CET127\ /s /e /i /y
+rd /s /q CET127\cet127-master
+
+:: Step 12: Download and extract repo2 (EGR170) and rename its folder
+
+:: Second repository (EGR170)
+echo Downloading and extracting second repository (EGR170)...
+powershell -Command "Invoke-WebRequest -Uri https://github.com/obsidianhead/egr170/archive/refs/heads/master.zip -OutFile repo2.zip"
+powershell -Command "Expand-Archive -Path repo2.zip -DestinationPath EGR170 -Force"
+del repo2.zip
+
+:: Move contents of 'egr170-master' to 'EGR170' and delete 'egr170-master' folder
+echo Moving contents of 'egr170-master' to 'EGR170'...
+xcopy EGR170\egr170-master\* EGR170\ /s /e /i /y
+rd /s /q EGR170\egr170-master
+
+echo Setup completed. All repositories have been downloaded, extracted, and moved.
+
 pause
