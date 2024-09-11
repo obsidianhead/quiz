@@ -3,14 +3,17 @@ let timeLeft; // Dynamically calculated based on the number of questions
 let config = { courseName: '', chapters: [] };
 let selectedCourse = '';
 let selectedChapterName = '';
+const blobBaseUrl = 'https://quizstore.blob.core.windows.net/data'; // Base URL for the blob storage
 
-// Fetch courses dynamically from courses.json and create course selection dropdown
+// Fetch courses dynamically from a local file and create course selection dropdown
 document.addEventListener('DOMContentLoaded', () => {
     fetchCourses();
 });
 
 function fetchCourses() {
-    fetch('courses.json')
+    // Assuming courses.json is loaded locally and not from the blob
+    const coursesUrl = './courses.json'; // Change this to your local file path
+    fetch(coursesUrl)
         .then(response => response.json())
         .then(data => {
             createCourseSelection(data.courses);
@@ -66,9 +69,9 @@ function createCourseSelection(courses) {
 }
 
 function loadCourseConfig(courseId) {
-    const configPath = `./data/${courseId}/quiz_config.json`;
+    const configUrl = `${blobBaseUrl}/${courseId}/quiz_config.json`; // Load from blob
 
-    fetch(configPath)
+    fetch(configUrl)
         .then(response => response.json())
         .then(data => {
             config = data;
@@ -129,7 +132,7 @@ function createChapterSelection() {
 }
 
 function startQuiz(chapterNumber) {
-    const chapterQuestionsFile = `./data/${selectedCourse}/chapters/${chapterNumber}/questions.json`;
+    const chapterQuestionsFile = `${blobBaseUrl}/${selectedCourse}/chapters/${chapterNumber}/questions.json`; // Load from blob
 
     fetch(chapterQuestionsFile)
         .then(response => response.json())
