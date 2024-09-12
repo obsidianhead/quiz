@@ -16,7 +16,7 @@
         <h1 id="course-name" class="text-center mb-4">Select Course</h1>
         <h2 class="text-center mb-4">Add Quiz Question</h2>
 
-        <!-- Status message for loading JSON -->
+        <!-- Status message for loading -->
         <div id="status" class="text-center mb-3 text-danger"></div>
 
         <form id="question-form" class="mb-4">
@@ -39,13 +39,11 @@
                 <textarea id="question" name="question" class="form-control" rows="3" required></textarea>
             </div>
 
-            <!-- Dropdown for Optional Image Selection -->
+            <!-- Input field for Image Selection -->
             <div class="form-group">
-                <label for="image-select">Select Image (optional):</label>
-                <select id="image-select" name="image-select" class="form-control">
-                    <option value="">None</option>
-                    <!-- Image options will be populated dynamically -->
-                </select>
+                <label for="image-input">Image Name (optional):</label>
+                <input id="image-input" name="image-input" class="form-control" placeholder="Enter image name, e.g., image1.jpg">
+                <small class="form-text text-muted">The image will be loaded from: https://quizstore.blob.core.windows.net/assets/</small>
             </div>
 
             <label>Answers:</label>
@@ -88,216 +86,162 @@
 
             <button type="button" class="btn btn-primary btn-block" onclick="addQuestion()">Add Question</button>
         </form>
-        <h3 class="text-center mb-4">Generated JSON</h3>
-        <textarea id="output" class="form-control mb-4" rows="10" readonly></textarea>
-        <button class="btn btn-success btn-block" onclick="downloadJSON()">Download Updated JSON</button>
+
+        <h3 class="text-center mb-4">Database Status</h3>
+        <div id="db-status" class="text-center"></div>
+
+        <!-- Button to download the updated database -->
+        <button class="btn btn-success btn-block" onclick="downloadDatabase()">Download Updated Database</button>
     </div>
 
     <!-- Include Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.js"></script>
 
-    <!-- JavaScript for quiz question generator -->
     <script>
-        let questions = [];
-        let config = {
-            courseName: '',
-            chapters: []
-        };
-        let images = []; // To store available images
-        let selectedCourse = null; // Track the selected course
-        let selectedChapter = null; // Track the selected chapter
+        let db;
+        let dbLoaded = false;
+        let selectedCourse = null;
+        let selectedChapter = null;
 
-        // Load courses, chapters, and configuration JSON automatically
+        // Load the SQLite database using sql.js
         document.addEventListener('DOMContentLoaded', () => {
-            loadCourses(); // Load available courses
-            loadImagesFromAssets(); // Load images from assets folder
+            initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.wasm` }).then(SQL => {
+                fetch('db/quiz.db')  // Load from db/quiz.db
+                    .then(response => response.arrayBuffer())
+                    .then(data => {
+                        db = new SQL.Database(new Uint8Array(data));
+                        dbLoaded = true;
+                        loadCourses();
+                        console.log("Database loaded successfully from db/quiz.db");
+                    })
+                    .catch(error => {
+                        console.error("Error loading database:", error);
+                    });
+            });
         });
 
+        // Load courses from the database
         function loadCourses() {
-            fetch('courses.json') // Assuming there's a JSON file listing available courses
-                .then(response => response.json())
-                .then(data => {
-                    const courseSelect = document.getElementById('course');
-                    courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>';
-
-                    data.courses.forEach(course => {
-                        const option = document.createElement('option');
-                        option.value = course.id; // Assuming courses have an 'id' field
-                        option.textContent = course.name;
-                        courseSelect.appendChild(option);
-                    });
-
-                    // Trigger chapter loading when a course is selected
-                    courseSelect.addEventListener('change', function () {
-                        selectedCourse = this.value;
-                        loadChapters(selectedCourse); // Load chapters for the selected course
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading courses:', error);
-                    document.getElementById('status').innerText = 'Failed to load courses. Please check the file.';
+            const courseSelect = document.getElementById('course');
+            const result = db.exec("SELECT id, course_name FROM courses");
+            if (result.length > 0) {
+                const courses = result[0].values;
+                courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>';
+                courses.forEach(course => {
+                    const option = document.createElement('option');
+                    option.value = course[0];
+                    option.textContent = course[1];
+                    courseSelect.appendChild(option);
                 });
+            }
+
+            courseSelect.addEventListener('change', function () {
+                selectedCourse = this.value;
+                loadChapters(selectedCourse);
+            });
         }
 
+        // Load chapters from the database
         function loadChapters(courseId) {
             const chapterSelect = document.getElementById('chapter');
-            chapterSelect.disabled = true; // Disable the chapter select until chapters are loaded
-            chapterSelect.innerHTML = '<option value="" disabled selected>Select a chapter</option>';
-
-            fetch(`./data/${courseId}/quiz_config.json`)
-                .then(response => response.json())
-                .then(data => {
-                    config = data;
-                    document.getElementById('course-name').innerText = config.courseName;
-
-                    // Populate chapters
-                    config.chapters.forEach(chapter => {
-                        const option = document.createElement('option');
-                        option.value = chapter.number; // Store chapter number in value
-                        option.textContent = chapter.name; // Display chapter name
-                        chapterSelect.appendChild(option);
-                    });
-
-                    chapterSelect.disabled = false; // Enable chapter selection
-
-                    chapterSelect.addEventListener('change', function () {
-                        selectedChapter = this.value;
-                        loadExistingJSON(selectedChapter); // Load questions for the selected chapter
-                    });
-                })
-                .catch(error => {
-                    console.error('Error loading chapters:', error);
-                    document.getElementById('status').innerText =
-                        'Failed to load chapters for the selected course.';
+            const result = db.exec(`SELECT id, chapter_name FROM chapters WHERE course_id = ${courseId}`);
+            if (result.length > 0) {
+                const chapters = result[0].values;
+                chapterSelect.innerHTML = '<option value="" disabled selected>Select a chapter</option>';
+                chapters.forEach(chapter => {
+                    const option = document.createElement('option');
+                    option.value = chapter[0];
+                    option.textContent = chapter[1];
+                    chapterSelect.appendChild(option);
                 });
-        }
 
-        function loadExistingJSON(chapter) {
-            if (!chapter) {
-                document.getElementById('status').innerText = 'Please select a chapter.';
-                return;
+                chapterSelect.disabled = false;
+                chapterSelect.addEventListener('change', function () {
+                    selectedChapter = this.value;
+                });
             }
-
-            const chapterQuestionsFile = `./data/${selectedCourse}/chapters/${chapter}/questions.json`;
-
-            fetch(chapterQuestionsFile)
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Failed to load existing questions.');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    questions = Array.isArray(data) ? data : [];
-                    updateOutput();
-                    document.getElementById('status').innerText =
-                        `Loaded questions for Chapter ${chapter} successfully!`;
-                })
-                .catch(error => {
-                    console.error('Error loading JSON:', error);
-                    questions = []; // Start with an empty array if loading fails
-                    document.getElementById('status').innerText =
-                        `Failed to load questions for Chapter ${chapter}. Starting with an empty set.`;
-                });
         }
 
-        function loadImagesFromAssets() {
-            fetch('assets/images.json') // Assuming there's a JSON file listing the images
-                .then(response => response.json())
-                .then(data => {
-                    images = data;
-                    populateFormOptions();
-                })
-                .catch(error => {
-                    console.error('Error loading images from assets folder:', error);
-                    document.getElementById('status').innerText =
-                        'Failed to load images. Please check assets folder.';
-                });
-        }
+        // Add question and answers to the database
+        // Add question and answers to the database
+function addQuestion() {
+    if (!dbLoaded) {
+        alert("Database not loaded.");
+        return;
+    }
 
-        function populateFormOptions() {
-            const imageSelect = document.getElementById('image-select');
+    const questionText = document.getElementById('question').value;
+    const imageName = document.getElementById('image-input').value;
+    const imageUrl = imageName ? `https://quizstore.blob.core.windows.net/assets/${imageName}` : null;
+    const solutionText = document.getElementById('solution').value;
 
-            // Clear existing options
-            imageSelect.innerHTML = '<option value="">None</option>'; // Reset image options with the default "None"
+    const answersElements = document.querySelectorAll('input[name="answer"]');
+    const correctElement = document.querySelector('input[name="correct"]:checked');
 
-            // Populate images
-            images.forEach(image => {
-                const option = document.createElement('option');
-                option.value = `assets/${image}`;
-                option.textContent = image;
-                imageSelect.appendChild(option);
+    if (!correctElement) {
+        alert('Please select a correct answer.');
+        return;
+    }
+
+    const correctIndex = parseInt(correctElement.value);
+    let answers = [];
+
+    answersElements.forEach((answerElement, index) => {
+        const answerText = answerElement.value.trim();
+        if (answerText) {
+            answers.push({
+                text: answerText,
+                correct: index === correctIndex
             });
         }
+    });
 
-        function addQuestion() {
-            const questionText = document.getElementById('question').value;
-            const imageUrl = document.getElementById('image-select').value;
-            const solutionText = document.getElementById('solution').value; // Get the solution
-            const answersElements = document.querySelectorAll('input[name="answer"]');
-            const correctElement = document.querySelector('input[name="correct"]:checked');
+    if (answers.length === 0) {
+        alert('Please provide at least one answer.');
+        return;
+    }
 
-            if (!correctElement) {
-                alert('Please select a correct answer.');
-                return;
-            }
+    // Insert question
+    db.run(`INSERT INTO questions (chapter_id, question_text, image) VALUES (${selectedChapter}, '${questionText}', '${imageUrl}')`);
+    const questionId = db.exec("SELECT last_insert_rowid()")[0].values[0][0];
 
-            const correctIndex = parseInt(correctElement.value);
-            let answers = [];
+    // Insert answers
+    answers.forEach((answer, index) => {
+        db.run(`INSERT INTO answers (question_id, answer_text, is_correct) VALUES (${questionId}, '${answer.text}', ${answer.correct})`);
+    });
 
-            answersElements.forEach((answerElement, index) => {
-                const answerText = answerElement.value.trim();
+    // Insert solution if available
+    if (solutionText) {
+        db.run(`INSERT INTO solutions (question_id, solution_text) VALUES (${questionId}, '${solutionText}')`);
+    }
 
-                if (answerText) {
-                    answers.push({
-                        text: answerText,
-                        correct: index === correctIndex // Determine if this is the correct answer
-                    });
-                }
-            });
+    // Display success message
+    document.getElementById('db-status').innerText = "Question and answers added successfully!";
 
-            if (answers.length === 0) {
-                alert('Please provide at least one answer.');
-                return;
-            }
+    // Clear the form fields
+    document.getElementById('question').value = '';               // Clear question
+    document.getElementById('image-input').value = '';            // Clear image name
+    document.getElementById('solution').value = '';               // Clear solution
 
-            const questionObject = {
-                question: questionText,
-                image: imageUrl ? imageUrl : null, // Include image URL if selected
-                answers: answers,
-                solution: solutionText ? solutionText : null // Include the solution if provided
-            };
+    // Clear answers and correct answer selection
+    answersElements.forEach((answerElement) => {
+        answerElement.value = '';                                 // Clear answer text
+    });
+    document.querySelector('input[name="correct"]:checked').checked = false;  // Clear correct answer selection
+}
 
-            // Append the new question to the loaded questions array
-            questions.push(questionObject);
-// Update the displayed output without resetting the form
-            updateOutput();
-// Optionally clear the answer fields, but keep course and chapter selections
-document.querySelectorAll('input[name="answer"]').forEach(input => input.value = '');
-document.querySelector('textarea[name="question"]').value = '';
-document.querySelector('textarea[name="solution"]').value = '';
-document.querySelector('input[name="correct"]:checked').checked = false;
-        }
 
-        function updateOutput() {
-            document.getElementById('output').value = JSON.stringify(questions, null, 2);
-        }
-
-        function downloadJSON() {
-            if (!selectedChapter) {
-                alert('Please select a chapter to download questions for.');
-                return;
-            }
-
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(questions, null, 2));
-            const downloadAnchorNode = document.createElement('a');
-            downloadAnchorNode.setAttribute("href", dataStr);
-            downloadAnchorNode.setAttribute("download", `questions_chapter_${selectedChapter}.json`);
-            document.body.appendChild(downloadAnchorNode);
-            downloadAnchorNode.click();
-            downloadAnchorNode.remove();
+        // Function to download the updated database
+        function downloadDatabase() {
+            const data = db.export();
+            const blob = new Blob([data], { type: 'application/octet-stream' });
+            const downloadLink = document.createElement('a');
+            downloadLink.href = URL.createObjectURL(blob);
+            downloadLink.download = 'quiz.db';
+            downloadLink.click();
         }
     </script>
 </body>
