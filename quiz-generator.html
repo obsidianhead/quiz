@@ -109,13 +109,13 @@
         // Load the SQLite database using sql.js
         document.addEventListener('DOMContentLoaded', () => {
             initSqlJs({ locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.wasm` }).then(SQL => {
-                fetch('db/quiz.db')  // Load from db/quiz.db
+                fetch('db/quiz-v3.db')  // Load from db/quiz.db
                     .then(response => response.arrayBuffer())
                     .then(data => {
                         db = new SQL.Database(new Uint8Array(data));
                         dbLoaded = true;
                         loadCourses();
-                        console.log("Database loaded successfully from db/quiz.db");
+                        console.log("Database loaded successfully from db/quiz-v3.db");
                     })
                     .catch(error => {
                         console.error("Error loading database:", error);

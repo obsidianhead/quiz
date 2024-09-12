@@ -1,27 +1,79 @@
 @echo off
-REM Create the build directory if it doesn't exist
-if not exist build (
-    mkdir build
-    echo Build folder created
+setlocal enabledelayedexpansion
+
+REM Confirmation prompt
+echo Are you sure you want to run the build process? (Y/N)
+choice /c YN /n /m "Press Y to proceed or N to cancel."
+if errorlevel 2 (
+    echo Build process canceled.
+    exit /b 0
 )
 
-REM Copy index.html and script.js to the build folder
-copy index.html build\
-copy script.js build\
-copy styles.css build\
+REM Read and increment build version
+set "versionFile=version.txt"
+if not exist "%versionFile%" (
+    echo 1 > "%versionFile%"  REM Create version.txt if it doesn't exist with starting version 1
+)
 
-REM Azure Blob Storage Upload
-set "storageAccountName=quizstore"
-set "containerName=database"
-set "resourceGroup=hgtc"
-set "sasToken=se=2024-09-15T00%%3A00Z&sp=rw&spr=https&sv=2022-11-02&ss=b&srt=o&sig=Ub7GjXVH7LxZ8qoZHFQlbig34F9jxh6xzR%%2BPSsKTlew%%3D"
+REM Read the current version from version.txt
+set /p buildVersion=<%versionFile%
+if "%buildVersion%"=="" set buildVersion=0
 
-echo Uploading files to Azure Blob Storage...
+REM Increment the version number
+set /a buildVersion+=1
 
-az storage blob upload --account-name %storageAccountName% --container-name %containerName% --name "quiz.db" --file ".\db\quiz.db" --sas-token %sasToken%
+REM Update version.txt with the new version
+echo %buildVersion% > "%versionFile%"
 
-echo Build and upload completed.
-pause
+echo Current build version: %buildVersion%
 
-echo Build completed
+REM Set build directory with version inside the build folder
+set "mainBuildDir=build"
+set "buildDir=%mainBuildDir%\build_v%buildVersion%"
+
+REM Set database file version name
+set "newDbFile=quiz_v%buildVersion%.db"
+
+REM Create the main build folder if it doesn't exist
+if not exist "%mainBuildDir%" (
+    mkdir "%mainBuildDir%"
+    echo Main build folder "%mainBuildDir%" created
+)
+
+REM Create the versioned build directory if it doesn't exist
+if not exist "%buildDir%" (
+    mkdir "%buildDir%"
+    echo Build folder "%buildDir%" created
+) else (
+    echo Build folder "%buildDir%" already exists, proceeding with file copy...
+)
+
+REM Copy files to the versioned build directory
+copy index.html "%buildDir%\" >nul
+if %errorlevel% neq 0 echo Failed to copy index.html & exit /b 1
+copy script.js "%buildDir%\" >nul
+if %errorlevel% neq 0 echo Failed to copy script.js & exit /b 1
+copy styles.css "%buildDir%\" >nul
+if %errorlevel% neq 0 echo Failed to copy styles.css & exit /b 1
+
+REM Copy and rename the database file
+copy "db\quiz.db" "%buildDir%\%newDbFile%" >nul
+if %errorlevel% neq 0 (
+    echo Failed to copy and rename quiz.db to %newDbFile%
+    exit /b 1
+)
+
+REM Replace quiz.db with quiz_v<version>.db in script.js in the build folder
+set "oldDbName=quiz.db"
+set "newDbName=%newDbFile%"
+
+REM Use PowerShell to replace all instances of quiz.db with quiz_v<version>.db in script.js
+powershell -Command "(Get-Content '%buildDir%\script.js') -replace '%oldDbName%', '%newDbName%' | Set-Content '%buildDir%\script.js'"
+if %errorlevel% neq 0 (
+    echo Failed to update quiz.db references in script.js
+    exit /b 1
+)
+
+echo Build completed successfully in "%buildDir%" with version %buildVersion%.
+
 pause
