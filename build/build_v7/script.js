@@ -116,7 +116,7 @@ function initializeDatabase(data) {
 
 // Load the database on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadDatabase('quiz.db');  // You can specify 'quiz-v1.db' or any version
+    loadDatabase('quiz_v7.db');  // You can specify 'quiz-v1.db' or any version
 });
 
 // Fetch courses from the SQLite database
