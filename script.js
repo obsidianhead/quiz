@@ -7,7 +7,7 @@ let selectedChapterName = '';
 const dbName = 'quiz';  // Database name
 const blobBaseUrl = 'https://quizstore.blob.core.windows.net/database';  // Base URL for the blob storage
 const localBaseUrl = './db';  // Base URL for local testing (local folder path)
-let isLocalMode = true;  // Set to 'true' for local testing, 'false' for Azure Blob
+let isLocalMode = false;  // Set to 'true' for local testing, 'false' for Azure Blob
 const forceDBDownload = true;  // Toggle between force download or use of IndexedDB
 
 // Open or create the IndexedDB
