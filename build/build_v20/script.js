@@ -7,9 +7,8 @@ let selectedChapterName = '';
 const dbName = 'quiz';  // Database name
 const blobBaseUrl = 'https://quizstore.blob.core.windows.net/database';  // Base URL for the blob storage
 const localBaseUrl = './db';  // Base URL for local testing (local folder path)
-// DO NOT REMOVE SPACED KEEP ASIS ISSUE WITH BUILD SCRIPT USING REGEX
-let isLocalMode = true;  // Set to 'true' for local testing, 'false' for Azure Blob
-const forceDBDownload = true;  // Toggle between force download or use of IndexedDB
+let isLocalMode = false;  // Set to 'true' for local testing, 'false' for Azure Blob
+const forceDBDownload = false;  // Toggle between force download or use of IndexedDB
 
 // Open or create the IndexedDB
 function openIndexedDB() {
@@ -117,7 +116,7 @@ function initializeDatabase(data) {
 
 // Load the database on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadDatabase('quiz_v19.db');  // You can specify 'quiz-v1.db' or any version
+    loadDatabase('quiz_v20.db');  // You can specify 'quiz-v1.db' or any version
 });
 
 // Fetch courses from the SQLite database
