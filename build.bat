@@ -69,7 +69,7 @@ set "newDbName=%newDbFile%"
 set "oldLocalMode=true"
 set "newLocalMode=false"
 set "oldForceDB=true"
-set "newForceDB=false"
+set "newForceDB=true"
 
 REM Use PowerShell to replace all instances in script.js
 powershell -Command "(Get-Content '%buildDir%\script.js') -replace '%oldDbName%', '%newDbName%' -replace '%oldLocalMode%', '%newLocalMode%' -replace '%oldForceDB%', '%newForceDB%' | Set-Content '%buildDir%\script.js'"
