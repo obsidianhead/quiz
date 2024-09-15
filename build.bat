@@ -69,10 +69,10 @@ set "newDbName=%newDbFile%"
 set "oldLocalMode=true"
 set "newLocalMode=false"
 set "oldForceDB=true"
-set "newForceDB=true"
+set "newForceDB=false"
 
 REM Use PowerShell to replace all instances in script.js
-powershell -Command "(Get-Content '%buildDir%\script.js') -replace '%oldDbName%', '%newDbName%' -replace '%oldLocalMode%', '%newLocalMode%' -replace '%oldForceDB%', '%newForceDB%' | Set-Content '%buildDir%\script.js'"
+powershell -Command "(Get-Content '%buildDir%\script.js') -replace '\bquiz\.db\b', '%newDbName%' -replace '\bisLocalMode=true\b', 'isLocalMode=false' -replace '\bforceDBDownload=true\b', 'forceDBDownload=false' | Set-Content '%buildDir%\script.js'"
 
 if %errorlevel% neq 0 (
     echo Failed to update script.js with new database name, local mode, and forceDBDownload values.
