@@ -63,14 +63,19 @@ if %errorlevel% neq 0 (
     exit /b 1
 )
 
-REM Replace quiz.db with quiz_v<version>.db in script.js in the build folder
+REM Replace quiz.db, isLocalMode, and forceDBDownload in script.js in the build folder
 set "oldDbName=quiz.db"
 set "newDbName=%newDbFile%"
+set "oldLocalMode=true"
+set "newLocalMode=false"
+set "oldForceDB=true"
+set "newForceDB=false"
 
-REM Use PowerShell to replace all instances of quiz.db with quiz_v<version>.db in script.js
-powershell -Command "(Get-Content '%buildDir%\script.js') -replace '%oldDbName%', '%newDbName%' | Set-Content '%buildDir%\script.js'"
+REM Use PowerShell to replace all instances in script.js
+powershell -Command "(Get-Content '%buildDir%\script.js') -replace '%oldDbName%', '%newDbName%' -replace '%oldLocalMode%', '%newLocalMode%' -replace '%oldForceDB%', '%newForceDB%' | Set-Content '%buildDir%\script.js'"
+
 if %errorlevel% neq 0 (
-    echo Failed to update quiz.db references in script.js
+    echo Failed to update script.js with new database name, local mode, and forceDBDownload values.
     exit /b 1
 )
 

@@ -7,8 +7,8 @@ let selectedChapterName = '';
 const dbName = 'quiz';  // Database name
 const blobBaseUrl = 'https://quizstore.blob.core.windows.net/database';  // Base URL for the blob storage
 const localBaseUrl = './db';  // Base URL for local testing (local folder path)
-let isLocalMode = true;  // Set to 'true' for local testing, 'false' for Azure Blob
-const forceDBDownload = true;  // Toggle between force download or use of IndexedDB
+let isLocalMode = false;  // Set to 'false' for local testing, 'false' for Azure Blob
+const forceDBDownload = false;  // Toggle between force download or use of IndexedDB
 
 // Open or create the IndexedDB
 function openIndexedDB() {
@@ -116,7 +116,7 @@ function initializeDatabase(data) {
 
 // Load the database on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadDatabase('quiz.db');  // You can specify 'quiz-v1.db' or any version
+    loadDatabase('quiz_v14.db');  // You can specify 'quiz-v1.db' or any version
 });
 
 // Fetch courses from the SQLite database
@@ -180,7 +180,7 @@ function createCourseSelection(courses) {
     const startButton = document.createElement('button');
     startButton.innerText = 'Next';
     startButton.className = 'btn btn-primary mt-3';
-    startButton.disabled = true;
+    startButton.disabled = false;
 
     // Event listener to enable the button once a course is selected
     courseSelect.addEventListener('change', () => {
@@ -279,7 +279,7 @@ function createChapterAndTestSelection() {
     const startChapterButton = document.createElement('button');
     startChapterButton.innerText = 'Start Chapter Quiz';
     startChapterButton.className = 'btn btn-primary';
-    startChapterButton.disabled = true;
+    startChapterButton.disabled = false;
 
     chapterSelect.addEventListener('change', () => {
         startChapterButton.disabled = !chapterSelect.value;
@@ -297,7 +297,7 @@ function createChapterAndTestSelection() {
     const startTestButton = document.createElement('button');
     startTestButton.innerText = 'Start Test';
     startTestButton.className = 'btn btn-primary ml-3';  // Add margin to separate buttons
-    startTestButton.disabled = true;
+    startTestButton.disabled = false;
 
     testSelect.addEventListener('change', () => {
         startTestButton.disabled = !testSelect.value;
@@ -307,7 +307,7 @@ function createChapterAndTestSelection() {
         const selectedTestView = testSelect.value;
         if (selectedTestView) {
             console.log(`Starting test from view: ${selectedTestView}`);
-            startQuiz(selectedTestView, true);  // Pass true to indicate this is a view
+            startQuiz(selectedTestView, false);  // Pass false to indicate this is a view
         }
     };
 
