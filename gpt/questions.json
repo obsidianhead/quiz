@@ -1,0 +1,256 @@
+[
+    {
+        "question": "What is the most common form of chemical degradation?",
+        "image": null,
+        "answers": [
+            {
+                "text": "Thermal degradation",
+                "correct": false
+            },
+            {
+                "text": "Biological degradation",
+                "correct": false
+            },
+            {
+                "text": "Human-induced degradation",
+                "correct": false
+            },
+            {
+                "text": "Oxidation",
+                "correct": true
+            }
+        ],
+        "solution": "The most common form of chemical degradation is oxidation. This occurs when materials react with oxygen in their environment, leading to changes in their chemical structure and often resulting in corrosion, rust, or other forms of deterioration."
+    },
+    {
+        "question": "What is the galvanic series?",
+        "image": null,
+        "answers": [
+            {
+                "text": "A list of metallic elements ordered by melting points.",
+                "correct": false
+            },
+            {
+                "text": "A classification of metals based on their strength.",
+                "correct": false
+            },
+            {
+                "text": "A sequence of metals arranged by density.",
+                "correct": false
+            },
+            {
+                "text": "A ranking of metals and alloys based on their electrochemical reactivity in seawater.",
+                "correct": true
+            }
+        ],
+        "solution": "The galvanic series is a list of metals and alloys arranged according to their electrochemical reactivity in seawater. It helps predict which metals will corrode when two different ones are in contact in an electrolyte, as it ranks from the most anodic (active) to the most cathodic (noble) materials."
+    },
+    {
+        "question": "What type of radiation breaks down solvents?",
+        "image": null,
+        "answers": [
+            {
+                "text": "Ionizing radiation",
+                "correct": false
+            },
+            {
+                "text": "Ultraviolet radiation",
+                "correct": false
+            },
+            {
+                "text": "X-ray radiation",
+                "correct": false
+            },
+            {
+                "text": "Ultraviolet radiation",
+                "correct": true
+            }
+        ],
+        "solution": "Ultraviolet (UV) radiation can break down solvents through photochemical reactions. When substances absorb UV light, the energy can break chemical bonds, resulting in the degradation of the solvent molecules."
+    },
+    {
+        "question": "What is the formula used to calculate U-Value?",
+        "image": null,
+        "answers": [
+            {
+                "text": "U = R_total",
+                "correct": false
+            },
+            {
+                "text": "U = 1/R",
+                "correct": false
+            },
+            {
+                "text": "U = R/U",
+                "correct": false
+            },
+            {
+                "text": "U = 1/R_total",
+                "correct": true
+            }
+        ],
+        "solution": "The U-Value is calculated as the reciprocal of the total resistance (R_total). This means U = 1/R_total, where R_total is the sum of all thermal resistances in the assembly of materials."
+    },
+    {
+        "question": "Combustibility is of prime importance in the selection of construction materials?",
+        "image": null,
+        "answers": [
+            {
+                "text": "False",
+                "correct": false
+            },
+            {
+                "text": "True",
+                "correct": true
+            }
+        ],
+        "solution": "Combustibility is indeed of prime importance when selecting construction materials, as it influences the fire safety and fire resistance of the building. Materials with lower combustibility can help prevent the spread of fire and improve the overall safety of the structure. Building codes and regulations often require certain levels of fire resistance, influencing material choices to ensure compliance with safety standards."
+    },
+    {
+        "question": "What is embodied energy in the context of construction materials?",
+        "image": null,
+        "answers": [
+            {
+                "text": "The amount of energy a material uses when it is in service or providing its function in a building.",
+                "correct": false
+            },
+            {
+                "text": "The energy required to physically build and assemble a building on site.",
+                "correct": false
+            },
+            {
+                "text": "The total energy consumed during the life cycle of a building material, including production, transportation, and disposal.",
+                "correct": true
+            }
+        ],
+        "solution": "Embodied energy refers to the total energy required to extract, process, manufacture, and deliver construction materials to the building site. It also includes the energy associated with their disposal at the end of their life cycle. Understanding embodied energy helps in assessing the environmental impact of materials choices in construction."
+    },
+    {
+        "question": "What is a renewable material?",
+        "image": null,
+        "answers": [
+            {
+                "text": "A) A material that originates from finite resources.",
+                "correct": false
+            },
+            {
+                "text": "C) A material that requires mining or drilling.",
+                "correct": false
+            },
+            {
+                "text": "B) A material that can be replenished naturally over time.",
+                "correct": true
+            }
+        ],
+        "solution": "A renewable material is one that is derived from resources that can naturally replenish themselves over time, such as wood from sustainably managed forests or products made from plants like bamboo. These resources regenerate quickly and can be used repeatedly without depleting the resource permanently."
+    },
+    {
+        "question": "What are examples of renewable materials?",
+        "image": null,
+        "answers": [
+            {
+                "text": "Concrete",
+                "correct": false
+            },
+            {
+                "text": "Plastic",
+                "correct": false
+            },
+            {
+                "text": "Aluminum",
+                "correct": false
+            },
+            {
+                "text": "Steel",
+                "correct": false
+            },
+            {
+                "text": "Bamboo",
+                "correct": true
+            },
+            {
+                "text": "Cork",
+                "correct": true
+            },
+            {
+                "text": "Hemp",
+                "correct": true
+            },
+            {
+                "text": "Wool",
+                "correct": true
+            },
+            {
+                "text": "Cotton",
+                "correct": true
+            },
+            {
+                "text": "Straw",
+                "correct": true
+            }
+        ],
+        "solution": "Renewable materials are those that can be replenished naturally over short periods of time. Bamboo, cork, hemp, wool, cotton, and straw are examples of renewable materials because they can be grown or harvested sustainably without depleting resources. On the other hand, materials like concrete, plastic, aluminum, and steel are not considered renewable because they either rely on finite resources or have long regeneration periods."
+    },
+    {
+        "question": "What is the LEED system?",
+        "image": null,
+        "answers": [
+            {
+                "text": "A system for classifying soil types.",
+                "correct": false
+            },
+            {
+                "text": "A method used to calculate building structural loads.",
+                "correct": false
+            },
+            {
+                "text": "A government agency overseeing land use.",
+                "correct": false
+            },
+            {
+                "text": "A standard protocol for residential energy use.",
+                "correct": false
+            },
+            {
+                "text": "A certification program for environmentally sustainable buildings.",
+                "correct": true
+            }
+        ],
+        "solution": "The LEED system, which stands for Leadership in Energy and Environmental Design, is a widely used green building certification program. Developed by the U.S. Green Building Council (USGBC), it includes a set of rating systems for the design, construction, operation, and maintenance of green buildings, homes, and neighborhoods. Its goal is to help building owners and operators be environmentally responsible and use resources efficiently."
+    },
+    {
+        "question": "What are the assessment criteria for sustainable construction materials? (select many)",
+        "image": null,
+        "answers": [
+            {
+                "text": "Thermal conductivity",
+                "correct": false
+            },
+            {
+                "text": "High cost",
+                "correct": false
+            },
+            {
+                "text": "Limited durability",
+                "correct": false
+            },
+            {
+                "text": "Resource efficiency",
+                "correct": true
+            },
+            {
+                "text": "Low environmental impact",
+                "correct": true
+            },
+            {
+                "text": "Recyclability",
+                "correct": true
+            },
+            {
+                "text": "Local availability",
+                "correct": true
+            }
+        ],
+        "solution": "Sustainable construction materials are assessed based on several criteria that ensure they have minimal negative impact on the environment and contribute positively to sustainable development. Key criteria include:\n\n1. **Resource efficiency**: This includes the use of materials that require less energy to produce, thereby conserving natural resources and energy.\n\n2. **Low environmental impact**: Sustainable materials should have a reduced impact on the environment across their lifecycle. This includes minimal emissions and pollutants during production, use, and disposal.\n\n3. **Recyclability**: Materials should be easy to recycle at the end of their life to minimize waste and resource usage.\n\n4. **Local availability**: Materials sourced locally reduce transportation emissions and support the local economy, contributing to sustainability.\n\nIn contrast, criteria like thermal conductivity, high cost, and limited durability do not necessarily align with sustainability objectives. Thermal conductivity, while important for specific material functions, does not inherently relate to sustainability. Similarly, high cost and limited durability do not support sustainable principles of economy and longevity."
+    }
+]
