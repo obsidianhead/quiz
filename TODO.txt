@@ -1,0 +1,17 @@
+Quick and Easy
+___________________
+- change 'select a course' to 'select a class'
+- use 'test preparation' instead of test for multiple chapter quizes
+- add breakdown of wrong answers by chapter for tests
+- add question id for purpose of reporting errorneous/inaccurate questions and add JS
+alert style notification with instructions to report errorneous/inaccurate questions
+- add spacing between submit/next and exit buttons when viewing on phone
+- add chapter/unit references to all class "chapters"
+- add end-of-test importance questions wrong
+
+Features
+________
+
+- drag and drop answers onto image
+- gpt grade text
+- OCR question generator pipeline
