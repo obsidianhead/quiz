@@ -15,3 +15,10 @@ ________
 - drag and drop answers onto image
 - gpt grade text
 - OCR question generator pipeline
+
+BUGS
+____
+
+- CET127 exam error "no such column importance"
+- duplicate questions EGR170
+- replace version placeholder on homepage
