@@ -23,13 +23,13 @@ class QuizResponse(BaseModel):
     solution: str 
 
 # Function to generate the quiz question and append to questions.json
-def generate_quiz(question_input: str, response_type: str):
+def generate_quiz(question_input: str, response_type: str, difficulty: str):
     # Make the API request to OpenAI's chat completion endpoint
     completion = client.beta.chat.completions.parse(
         model="gpt-4o-2024-08-06",
         messages=[
             {"role": "system", "content": "You are an expert civil engineer, construction manager, and land surveyor based in the USA."},
-            {"role": "user", "content": f"{question_input} ({response_type})"}
+            {"role": "user", "content": f"{question_input} ({response_type}, difficulty: {difficulty})"}
         ],
         response_format=QuizResponse,
     )
@@ -98,7 +98,18 @@ class QuizShell(cmd.Cmd):
             print("Invalid selection")
             return
 
-        generate_quiz(question, response_type_str)
+        difficulty_input = input("Select difficulty (1: Easy, 2: Medium, 3: Hard): ")
+        if difficulty_input == '1':
+            difficulty = "easy"
+        elif difficulty_input == '2':
+            difficulty = "medium"
+        elif difficulty_input == '3':
+            difficulty = "hard"
+        else:
+            print("Invalid difficulty selection. Defaulting to 'medium'.")
+            difficulty = "medium"
+
+        generate_quiz(question, response_type_str, difficulty)
 
     def do_exit(self, arg):
         """Exit the shell."""

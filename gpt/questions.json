@@ -1,256 +1,364 @@
 [
     {
-        "question": "What is the most common form of chemical degradation?",
+        "question": "What is the definition of surveying?",
         "image": null,
         "answers": [
             {
-                "text": "Thermal degradation",
+                "text": "A) The process of designing buildings and structures.",
                 "correct": false
             },
             {
-                "text": "Biological degradation",
+                "text": "B) The science of creating maps from aerial imagery.",
                 "correct": false
             },
             {
-                "text": "Human-induced degradation",
+                "text": "C) The measurement of quantities of materials used in construction.",
                 "correct": false
             },
             {
-                "text": "Oxidation",
+                "text": "D) The art of preparing detailed drawings for construction projects.",
+                "correct": false
+            },
+            {
+                "text": "E) The science and art of determining relative positions of points above, on, or beneath the Earth's surface and establishing points in the field.",
                 "correct": true
             }
         ],
-        "solution": "The most common form of chemical degradation is oxidation. This occurs when materials react with oxygen in their environment, leading to changes in their chemical structure and often resulting in corrosion, rust, or other forms of deterioration."
+        "solution": "Surveying is the practice of determining the three-dimensional positions of points and the distances and angles between them. It is used to establish boundaries for ownership, create maps and plans, and guide construction projects."
     },
     {
-        "question": "What is the galvanic series?",
+        "question": "What is the International Federation of Surveyors definition of a surveyor?",
         "image": null,
         "answers": [
             {
-                "text": "A list of metallic elements ordered by melting points.",
+                "text": "A surveyor is someone who specializes in measuring land and establishing property lines.",
                 "correct": false
             },
             {
-                "text": "A classification of metals based on their strength.",
+                "text": "A surveyor is primarily concerned with the mathematical aspects of mapping and GIS technologies.",
                 "correct": false
             },
             {
-                "text": "A sequence of metals arranged by density.",
+                "text": "A surveyor is someone who inspects construction sites to ensure the accuracy of the building process.",
                 "correct": false
             },
             {
-                "text": "A ranking of metals and alloys based on their electrochemical reactivity in seawater.",
+                "text": "A surveyor is a professional person with the academic qualifications and technical expertise to conduct one, or more, of the following activities: to determine, measure and represent land, three-dimensional objects, point-fields and trajectories, to assemble and interpret land and geographically related information, to use that information for the planning and efficient administration of the land, the sea and any structures thereon, and to conduct research into the above practices and to develop them.",
                 "correct": true
             }
         ],
-        "solution": "The galvanic series is a list of metals and alloys arranged according to their electrochemical reactivity in seawater. It helps predict which metals will corrode when two different ones are in contact in an electrolyte, as it ranks from the most anodic (active) to the most cathodic (noble) materials."
+        "solution": "The International Federation of Surveyors defines a surveyor as a professional with the qualifications and expertise to measure and represent land and other physical features across various fields, interpret geographic information, and apply this knowledge to land and resource management, as well as conduct related research."
     },
     {
-        "question": "What type of radiation breaks down solvents?",
+        "question": "What is geomatics?",
         "image": null,
         "answers": [
             {
-                "text": "Ionizing radiation",
+                "text": "The study of rocks and minerals.",
                 "correct": false
             },
             {
-                "text": "Ultraviolet radiation",
+                "text": "The art of drawing maps by hand.",
                 "correct": false
             },
             {
-                "text": "X-ray radiation",
+                "text": "The practice of estimating construction costs.",
                 "correct": false
             },
             {
-                "text": "Ultraviolet radiation",
+                "text": "The discipline of gathering, storing, processing, and delivering geographic information.",
                 "correct": true
             }
         ],
-        "solution": "Ultraviolet (UV) radiation can break down solvents through photochemical reactions. When substances absorb UV light, the energy can break chemical bonds, resulting in the degradation of the solvent molecules."
+        "solution": "Geomatics is concerned with the collection, analysis, and interpretation of data relating to the earth's surface. It includes technologies such as GPS, remote sensing, and GIS (Geographic Information Systems), which are used to gather and manage spatial information. This field is essential in land surveying, mapping, and various applications that require geographic information."
     },
     {
-        "question": "What is the formula used to calculate U-Value?",
+        "question": "What is the difference between geodetic and plane surveys?",
         "image": null,
         "answers": [
             {
-                "text": "U = R_total",
+                "text": "Geodetic surveys assume the Earth is flat.",
                 "correct": false
             },
             {
-                "text": "U = 1/R",
+                "text": "Plane surveys take into account Earth's curvature.",
                 "correct": false
             },
             {
-                "text": "U = R/U",
+                "text": "Geodetic surveys are only used for small areas.",
                 "correct": false
             },
             {
-                "text": "U = 1/R_total",
+                "text": "Geodetic surveys account for the Earth's curvature.",
+                "correct": true
+            },
+            {
+                "text": "Plane surveys assume the Earth's surface to be a flat plane.",
+                "correct": true
+            },
+            {
+                "text": "Geodetic surveys are used for large areas, like countries or continents.",
+                "correct": true
+            },
+            {
+                "text": "Plane surveys are typically used for small projects, such as a single construction site.",
                 "correct": true
             }
         ],
-        "solution": "The U-Value is calculated as the reciprocal of the total resistance (R_total). This means U = 1/R_total, where R_total is the sum of all thermal resistances in the assembly of materials."
+        "solution": "Geodetic surveys consider the Earth's curvature and are suitable for large-scale projects where precision over long distances is needed. Plane surveys, on the other hand, assume a flat Earth, which simplifies calculations, and are ideal for smaller-scale projects where these assumptions don't significantly affect accuracy."
     },
     {
-        "question": "Combustibility is of prime importance in the selection of construction materials?",
+        "question": "What is the accuracy of a GNSS survey?",
         "image": null,
         "answers": [
             {
-                "text": "False",
+                "text": "1-2 meters",
                 "correct": false
             },
             {
-                "text": "True",
+                "text": "8-10 meters",
+                "correct": false
+            },
+            {
+                "text": "20-25 meters",
+                "correct": false
+            },
+            {
+                "text": "Sub-centimeter to meter level",
                 "correct": true
             }
         ],
-        "solution": "Combustibility is indeed of prime importance when selecting construction materials, as it influences the fire safety and fire resistance of the building. Materials with lower combustibility can help prevent the spread of fire and improve the overall safety of the structure. Building codes and regulations often require certain levels of fire resistance, influencing material choices to ensure compliance with safety standards."
+        "solution": "The accuracy of a GNSS survey can vary widely depending on the equipment used, the method of data collection, and the environmental conditions. Typically, a GNSS survey using high-precision equipment and techniques, such as Real-Time Kinematic (RTK) or Post-Processed Kinematic (PPK), can achieve sub-centimeter accuracy. Other methods might result in accuracies from decimeter to meter-level. Basic standalone GNSS receivers without correction methods usually provide accuracies in the 1-5 meter range, showing that the provided correct answer encompasses the broad spectrum of potential accuracies."
     },
     {
-        "question": "What is embodied energy in the context of construction materials?",
+        "question": "What kind of survey determines the location of natural and artificial features and elevations?",
         "image": null,
         "answers": [
             {
-                "text": "The amount of energy a material uses when it is in service or providing its function in a building.",
+                "text": "Cadastral survey",
                 "correct": false
             },
             {
-                "text": "The energy required to physically build and assemble a building on site.",
+                "text": "Subdivision survey",
                 "correct": false
             },
             {
-                "text": "The total energy consumed during the life cycle of a building material, including production, transportation, and disposal.",
+                "text": "Boundary survey",
+                "correct": false
+            },
+            {
+                "text": "Geodetic survey",
+                "correct": false
+            },
+            {
+                "text": "Construction survey",
+                "correct": false
+            },
+            {
+                "text": "Hydrographic survey",
+                "correct": false
+            },
+            {
+                "text": "Topographic survey",
                 "correct": true
             }
         ],
-        "solution": "Embodied energy refers to the total energy required to extract, process, manufacture, and deliver construction materials to the building site. It also includes the energy associated with their disposal at the end of their life cycle. Understanding embodied energy helps in assessing the environmental impact of materials choices in construction."
+        "solution": "A topographic survey is conducted to ascertain the location of natural and artificial features on the land, as well as the elevation of the land. It helps in understanding the terrain and creating topographic maps, which depict the contour lines and physical features of a particular area."
     },
     {
-        "question": "What is a renewable material?",
+        "question": "What kind of surveys establish property lines and property corner markers?",
         "image": null,
         "answers": [
             {
-                "text": "A) A material that originates from finite resources.",
+                "text": "Construction surveys",
                 "correct": false
             },
             {
-                "text": "C) A material that requires mining or drilling.",
+                "text": "Hydrographic surveys",
                 "correct": false
             },
             {
-                "text": "B) A material that can be replenished naturally over time.",
+                "text": "Boundary surveys",
+                "correct": true
+            },
+            {
+                "text": "Cadastral surveys",
                 "correct": true
             }
         ],
-        "solution": "A renewable material is one that is derived from resources that can naturally replenish themselves over time, such as wood from sustainably managed forests or products made from plants like bamboo. These resources regenerate quickly and can be used repeatedly without depleting the resource permanently."
+        "solution": "Boundary surveys and cadastral surveys are primarily responsible for establishing property lines and property corner markers. Boundary surveys are essential for defining the legal boundaries between parcels of land, ensuring the property's limits are accurately established. Cadastral surveys, often used interchangeably with boundary surveys, involve the comprehensive registration of land parcels, providing precise descriptions and often forming the basis for legal land ownership records. On the other hand, construction surveys focus on laying out the structures within a site, rather than determining property boundaries, and hydrographic surveys measure bodies of water, having little to do with property lines."
     },
     {
-        "question": "What are examples of renewable materials?",
+        "question": "What is a cadastral survey?",
         "image": null,
         "answers": [
             {
-                "text": "Concrete",
+                "text": "A survey used to create topographic maps showing terrain features.",
                 "correct": false
             },
             {
-                "text": "Plastic",
+                "text": "A survey that determines the condition of a building.",
                 "correct": false
             },
             {
-                "text": "Aluminum",
+                "text": "A survey focused on environmental impact assessments.",
                 "correct": false
             },
             {
-                "text": "Steel",
-                "correct": false
-            },
-            {
-                "text": "Bamboo",
-                "correct": true
-            },
-            {
-                "text": "Cork",
-                "correct": true
-            },
-            {
-                "text": "Hemp",
-                "correct": true
-            },
-            {
-                "text": "Wool",
-                "correct": true
-            },
-            {
-                "text": "Cotton",
-                "correct": true
-            },
-            {
-                "text": "Straw",
+                "text": "A survey that establishes or re-establishes real property boundaries.",
                 "correct": true
             }
         ],
-        "solution": "Renewable materials are those that can be replenished naturally over short periods of time. Bamboo, cork, hemp, wool, cotton, and straw are examples of renewable materials because they can be grown or harvested sustainably without depleting resources. On the other hand, materials like concrete, plastic, aluminum, and steel are not considered renewable because they either rely on finite resources or have long regeneration periods."
+        "solution": "A cadastral survey is a type of land survey that establishes or re-establishes real property boundaries, involving the measurement and marking of land parcels. It is essential for property ownership documentation and for determining the boundaries of land for legal purposes."
     },
     {
-        "question": "What is the LEED system?",
+        "question": "What is an original survey?",
         "image": null,
         "answers": [
             {
-                "text": "A system for classifying soil types.",
+                "text": "A resurvey of previously surveyed land to verify boundaries",
                 "correct": false
             },
             {
-                "text": "A method used to calculate building structural loads.",
+                "text": "A survey conducted to subdivide land into smaller parcels",
                 "correct": false
             },
             {
-                "text": "A government agency overseeing land use.",
+                "text": "A cadastral survey of property boundaries in urban areas",
                 "correct": false
             },
             {
-                "text": "A standard protocol for residential energy use.",
-                "correct": false
-            },
-            {
-                "text": "A certification program for environmentally sustainable buildings.",
+                "text": "The first survey conducted to establish land boundaries and create public land records",
                 "correct": true
             }
         ],
-        "solution": "The LEED system, which stands for Leadership in Energy and Environmental Design, is a widely used green building certification program. Developed by the U.S. Green Building Council (USGBC), it includes a set of rating systems for the design, construction, operation, and maintenance of green buildings, homes, and neighborhoods. Its goal is to help building owners and operators be environmentally responsible and use resources efficiently."
+        "solution": "An original survey is the first official survey conducted on a particular land parcel to establish its boundaries and create public land records. This initial survey lays the groundwork for all subsequent property delineation in the area, ensuring accurate and official documentation of land ownership and boundary lines."
     },
     {
-        "question": "What are the assessment criteria for sustainable construction materials? (select many)",
+        "question": "What is a retracement survey?",
         "image": null,
         "answers": [
             {
-                "text": "Thermal conductivity",
+                "text": "A survey to establish a new boundary line where none existed before",
                 "correct": false
             },
             {
-                "text": "High cost",
+                "text": "A survey conducted using solely GPS technology for high accuracy",
                 "correct": false
             },
             {
-                "text": "Limited durability",
+                "text": "A survey method used exclusively in urban planning and zoning",
                 "correct": false
             },
             {
-                "text": "Resource efficiency",
-                "correct": true
-            },
-            {
-                "text": "Low environmental impact",
-                "correct": true
-            },
-            {
-                "text": "Recyclability",
-                "correct": true
-            },
-            {
-                "text": "Local availability",
+                "text": "A survey carried out to identify and reestablish the existing boundary lines of a property",
                 "correct": true
             }
         ],
-        "solution": "Sustainable construction materials are assessed based on several criteria that ensure they have minimal negative impact on the environment and contribute positively to sustainable development. Key criteria include:\n\n1. **Resource efficiency**: This includes the use of materials that require less energy to produce, thereby conserving natural resources and energy.\n\n2. **Low environmental impact**: Sustainable materials should have a reduced impact on the environment across their lifecycle. This includes minimal emissions and pollutants during production, use, and disposal.\n\n3. **Recyclability**: Materials should be easy to recycle at the end of their life to minimize waste and resource usage.\n\n4. **Local availability**: Materials sourced locally reduce transportation emissions and support the local economy, contributing to sustainability.\n\nIn contrast, criteria like thermal conductivity, high cost, and limited durability do not necessarily align with sustainability objectives. Thermal conductivity, while important for specific material functions, does not inherently relate to sustainability. Similarly, high cost and limited durability do not support sustainable principles of economy and longevity."
+        "solution": "A retracement survey is a type of survey conducted to reestablish the original boundary lines of a parcel of land. This is often necessary when the original survey markers are missing or disputed. The surveyor uses historical data, original survey notes, and physical evidence on the ground to determine where the original boundaries were intended to be. It is not about creating new boundaries, but about confirming or clarifying existing ones."
+    },
+    {
+        "question": "What is a Condominium survey?",
+        "image": null,
+        "answers": [
+            {
+                "text": "A survey that determines the environmental impact of constructing a high-rise building.",
+                "correct": false
+            },
+            {
+                "text": "A survey that evaluates the financial viability of constructing a residential complex.",
+                "correct": false
+            },
+            {
+                "text": "A boundary survey for agricultural lands focusing on water rights.",
+                "correct": false
+            },
+            {
+                "text": "A structural survey that ensures the building meets earthquake-resistant standards.",
+                "correct": false
+            },
+            {
+                "text": "A type of survey that involves creating and legally detailing the individual units and common areas within a condominium complex.",
+                "correct": true
+            }
+        ],
+        "solution": "A Condominium survey involves creating detailed maps and documentation that define the individual ownership of units, common areas, facilities, and land of a condominium complex. This survey is necessary for legal descriptions and establishing boundaries for each unit, often involving air rights delineation as well as the land footprint, which helps determine the ownership and responsibilities of both residents and the condominium association."
+    },
+    {
+        "question": "What is a Hydrographic survey?",
+        "image": null,
+        "answers": [
+            {
+                "text": "A survey conducted to assess the potential for solar energy harnessing.",
+                "correct": false
+            },
+            {
+                "text": "A survey that measures the acoustic noise levels in urban environments.",
+                "correct": false
+            },
+            {
+                "text": "A survey to map underground mineral deposits.",
+                "correct": false
+            },
+            {
+                "text": "A survey dealing with the measurement and description of physical features of bodies of water and the coastal areas.",
+                "correct": true
+            }
+        ],
+        "solution": "A hydrographic survey is focused on measuring and describing the physical features of oceans, seas, coastal areas, lakes, and rivers for the purpose of navigation, construction, and scientific investigation. This involves mapping the water depth, seabed contours, potential underwater obstructions, and other relevant features."
+    },
+    {
+        "question": "What is the difference between Land Information Systems (LIS) and Geographic Information Systems (GIS)?",
+        "image": null,
+        "answers": [
+            {
+                "text": "GIS focuses on managing and analyzing spatial data only from natural sources, while LIS manages legal property ownership details.",
+                "correct": false
+            },
+            {
+                "text": "LIS uses a broader set of analytical tools and algorithms compared to GIS.",
+                "correct": false
+            },
+            {
+                "text": "GIS is strictly for urban applications, whereas LIS is designed for rural settings.",
+                "correct": false
+            },
+            {
+                "text": "LIS specifically deals with land records and property details, focusing on ownership, valuation, and land use planning, while GIS is a broader tool that encompasses spatial data analysis for various applications such as environmental management, urban planning, and navigation.",
+                "correct": true
+            }
+        ],
+        "solution": "Land Information Systems (LIS) are specialized systems designed to manage, analyze, and visualize data related to land ownership, use, and value. They often integrate property laws, regulations, and transactions to assist in land-related decision-making processes. Geographic Information Systems (GIS), on the other hand, provide tools for capturing, managing, analyzing, and displaying spatial and geographical data. GIS is more diverse and can be applied across various sectors beyond just land management, including environmental monitoring, transportation, and public health. Essentially, LIS can be considered a subset of GIS, tailor-made for land management applications."
+    },
+    {
+        "question": "Which Federal agencies are involved in mapping and surveying? (select many, difficulty: hard)",
+        "image": null,
+        "answers": [
+            {
+                "text": "Environmental Protection Agency (EPA)",
+                "correct": false
+            },
+            {
+                "text": "Food and Drug Administration (FDA)",
+                "correct": false
+            },
+            {
+                "text": "U.S. Geological Survey (USGS)",
+                "correct": true
+            },
+            {
+                "text": "National Oceanic and Atmospheric Administration (NOAA)",
+                "correct": true
+            },
+            {
+                "text": "Bureau of Land Management (BLM)",
+                "correct": true
+            },
+            {
+                "text": "National Geospatial-Intelligence Agency (NGA)",
+                "correct": true
+            }
+        ],
+        "solution": "Several Federal agencies are involved in mapping and surveying due to the diverse applications and data needs across different sectors:\n\n1. **U.S. Geological Survey (USGS)**: This agency is renowned for its work in topographic and scientific mapping of the United States.\n\n2. **National Oceanic and Atmospheric Administration (NOAA)**: NOAA is involved in hydrographic surveys, maritime mapping, and coastal geospatial data.\n\n3. **Bureau of Land Management (BLM)**: This agency manages public lands and is heavily involved in land surveying and cadastral mapping.\n\n4. **National Geospatial-Intelligence Agency (NGA)**: The NGA provides geospatial intelligence for defense and national security, compiling detailed maps and geographic data.\n\nOther agencies like the Environmental Protection Agency (EPA) and the Food and Drug Administration (FDA) do not directly deal with mapping and surveying as their primary function focuses on environmental regulation and food/drug safety, respectively."
     }
 ]
