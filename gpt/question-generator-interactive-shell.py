@@ -49,7 +49,8 @@ def generate_quiz(question_input: str, response_type: str, difficulty: str):
             "question": message.parsed.question,
             "image": None,  # No image provided, so we leave it as None
             "answers": answers,
-            "solution": message.parsed.solution
+            "solution": message.parsed.solution,
+            "importance": 1
         }
 
         # Append to questions.json
