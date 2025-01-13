@@ -225,10 +225,6 @@ function createCourseSelection(courses) {
     version.className = 'text-left text-muted';
     version.innerText = 'version%version_number%';
 
-    // Scores Table
-    const scoresTable = document.createElement()
-    scoresTable.id = 'scores-table'
-
     // Append title, disclaimer, version, and scores table to the container
     container.appendChild(quizTitle);
     container.appendChild(disclaimer);
