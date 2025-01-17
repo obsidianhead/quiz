@@ -120,14 +120,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Fetch courses from the SQLite database
-function fetchCourses() {
+async function fetchCourses() {
     const results = db.exec("SELECT * FROM courses;");
     if (results.length > 0) {
         const courses = results[0].values.map(row => ({
             id: row[0],  // Assuming first column is course ID
             name: row[1] // Assuming second column is course name
         }));
-        createCourseSelection(courses);  // Pass courses to your existing function
+        await createCourseSelection(courses);  // Pass courses to your existing function
         // Define the API URL
         const apiUrl = "https://api.qualia-sc.com/test-scores";
         // Fetch data from the API
@@ -202,7 +202,7 @@ function createScoresTable(scores) {
   }
 
 // Create course selection dropdown
-function createCourseSelection(courses) {
+async function createCourseSelection(courses) {
     const container = document.getElementById('quiz-container');
     container.innerHTML = '';  // Clear previous content
 
