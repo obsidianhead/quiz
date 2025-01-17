@@ -1,0 +1,382 @@
+[
+    {
+        "question": "What is the definition of 'Engineering Mechanics'?",
+        "image": null,
+        "answers": [
+            {
+                "text": "The study of how forces influence a structure or rigid body.",
+                "correct": true
+            },
+            {
+                "text": "Engineering Mechanics involves the design and construction of buildings and infrastructure.",
+                "correct": false
+            },
+            {
+                "text": "Engineering Mechanics focuses on the application of electrical circuits and components in engineering design.",
+                "correct": false
+            },
+            {
+                "text": "Engineering Mechanics is the branch of the physical sciences that studies the effects of forces and their application to solving engineering problems.",
+                "correct": false
+            }
+        ],
+        "solution": "Engineering Mechanics is a fundamental branch of science focusing on understanding the effects of forces on physical bodies and their application in engineering design and problem-solving. It is crucial for analyzing and designing various structural and mechanical systems by applying principles such as static equilibrium and material strength.",
+        "importance": 1
+    },
+    {
+        "question": "'Engineering Mechanics' consists of two areas of study, what are they?",
+        "image": null,
+        "answers": [
+            {
+                "text": "Thermodynamics",
+                "correct": false
+            },
+            {
+                "text": "Fluid Mechanics",
+                "correct": false
+            },
+            {
+                "text": "Materials Science",
+                "correct": false
+            },
+            {
+                "text": "Statics",
+                "correct": true
+            },
+            {
+                "text": "Strength of Materials",
+                "correct": true
+            }
+        ],
+        "solution": "Engineering Mechanics is traditionally divided into two main areas of study: Statics, which deals with bodies at rest, and Dynamics, which deals with bodies in motion. These areas of study are fundamental in understanding how forces affect physical systems.",
+        "importance": 1
+    },
+    {
+        "question": "What is a good definition of 'Statics'?",
+        "image": null,
+        "answers": [
+            {
+                "text": "The study of objects in motion without considering the forces that cause the motion.",
+                "correct": false
+            },
+            {
+                "text": "The branch of mechanics dealing with the behavior of fluids, either in motion or at rest.",
+                "correct": false
+            },
+            {
+                "text": "A subfield of meteorology concerned with the study of atmospheric stability and storms.",
+                "correct": false
+            },
+            {
+                "text": "The branch of mechanics concerned with the analysis of loads (force, torque/moment) on physical systems in static equilibrium.",
+                "correct": true
+            }
+        ],
+        "solution": "Statics is the branch of mechanics that focuses on analyzing and solving problems related to objects at rest or in equilibrium. In this field, mechanical systems are studied with the assumption that the systems are in a state of static equilibrium, meaning that all the forces and moments acting upon them are balanced and there is no movement. This encompasses the calculation and understanding of forces, as well as evaluating whether structures can sustain applied loads without motion.",
+        "importance": 1
+    },
+    {
+        "question": "What is a good definition of 'Strength of Materials'?",
+        "image": null,
+        "answers": [
+            {
+                "text": "Strength of Materials is a branch of physics that deals with the behavior of solid objects and their properties under all conditions.",
+                "correct": false
+            },
+            {
+                "text": "Strength of Materials is the study of the properties of materials when they are in a liquid state under various stress conditions.",
+                "correct": false
+            },
+            {
+                "text": "Strength of Materials analyzes the flow of fluids and the forces acting on structures submerged in fluids.",
+                "correct": false
+            },
+            {
+                "text": "Strength of Materials is a branch of engineering that studies the changes in rigid bodies due to applied forces.",
+                "correct": true
+            }
+        ],
+        "solution": "The 'Strength of Materials' is a branch of engineering that specifically deals with studying how solid materials deform and break under various types of stresses and strains. This definition focuses on the solid state of materials and excludes other states of matter and unrelated branches of physics, such as fluid dynamics.",
+        "importance": 1
+    },
+    {
+        "question": "What are the key elements of a vector quantity?",
+        "image": null,
+        "answers": [
+            {
+                "text": "Time",
+                "correct": false
+            },
+            {
+                "text": "Frequency",
+                "correct": false
+            },
+            {
+                "text": "Direction",
+                "correct": true
+            },
+            {
+                "text": "Magnitude",
+                "correct": true
+            }
+        ],
+        "solution": "A vector quantity is characterized by having both a direction and a magnitude. Unlike scalar quantities, which are only described by magnitude, vectors must indicate the direction in which they are acting, as well as how strong or fast they are in that direction.",
+        "importance": 1
+    },
+    {
+        "question": "What is the key element of a scalar quantity?",
+        "image": null,
+        "answers": [
+            {
+                "text": "Direction",
+                "correct": false
+            },
+            {
+                "text": "Position",
+                "correct": false
+            },
+            {
+                "text": "Magnitude",
+                "correct": true
+            }
+        ],
+        "solution": "In physics, a scalar quantity is defined by its magnitude alone. Scalars are quantities that only require a numerical value and units for description, and do not have any direction associated with them, unlike vector quantities which have both magnitude and direction. Examples of scalar quantities include temperature, mass, and energy.",
+        "importance": 1
+    },
+    {
+        "question": "When can a vector be added?",
+        "image": null,
+        "answers": [
+            {
+                "text": "When the vectors have different magnitudes but same direction",
+                "correct": false
+            },
+            {
+                "text": "Whenever two or more vectors are considered, regardless of their characteristics",
+                "correct": false
+            },
+            {
+                "text": "When the vectors have the same physical quantities and are in the same or compatible coordinate system",
+                "correct": true
+            }
+        ],
+        "solution": "Vectors can only be added if they represent the same physical quantities (e.g., force, velocity) and are described in the same or compatible coordinate systems. This ensures that the resulting vector accurately represents the combined effect of the original vectors.",
+        "importance": 1
+    },
+    {
+        "question": "What is a 'line of action'?",
+        "image": "https://quizstore.blob.core.windows.net/assets/characteristics_of_force.png",
+        "answers": [
+            {
+                "text": "A line that represents the maximum load capacity of a beam in construction.",
+                "correct": false
+            },
+            {
+                "text": "A line that divides a structure into two equal parts for analysis.",
+                "correct": false
+            },
+            {
+                "text": "A line that is perpendicular to the plane of action of forces in a structural element.",
+                "correct": false
+            },
+            {
+                "text": "A line along which a force is acting on a body or structure.",
+                "correct": true
+            }
+        ],
+        "solution": "The 'line of action' of a force is an imaginary line that extends along the direction of the force and passes through the point where the force is applied. It is a critical concept in mechanics, as it helps determine the effect of a force on a body or structure, particularly in terms of torque or rotation.",
+        "importance": 1
+    },
+    {
+        "question": "Can a scalar quantity be added algebraically?",
+        "image": null,
+        "answers": [
+            {
+                "text": "No, scalars cannot be added algebraically",
+                "correct": false
+            },
+            {
+                "text": "It depends on the context of the scalar",
+                "correct": false
+            },
+            {
+                "text": "Yes, scalars can be added algebraically",
+                "correct": true
+            }
+        ],
+        "solution": "Yes, scalars can be added algebraically because they possess only magnitude, without any directional component. Thus, scalar quantities can be directly added or subtracted arithmetically, similar to regular algebraic numbers. Scalars include quantities such as time, temperature, mass, distance, and energy.",
+        "importance": 1
+    },
+    {
+        "question": "Can a vector quantity be added algebraically?",
+        "image": null,
+        "answers": [
+            {
+                "text": "Yes, vector quantities can always be added algebraically as they have direction and magnitude.",
+                "correct": false
+            },
+            {
+                "text": "Yes, by using their scalar components directly.",
+                "correct": false
+            },
+            {
+                "text": "No, vector quantities cannot be simply added algebraically unless they are along the same line or direction.",
+                "correct": true
+            }
+        ],
+        "solution": "Vector quantities have both magnitude and direction. For vectors to be added algebraically, they must be collinear or in the same direction. Otherwise, vectors must be added using vector addition methods like the triangle or parallelogram law, which consider both magnitude and direction. If vectors are not aligned, algebraic addition without consideration of angles and direction would lead to incorrect results.",
+        "importance": 1
+    },
+    {
+        "question": "What are the characteristics of force?",
+        "image": "https://quizstore.blob.core.windows.net/assets/characteristics_of_force.png",
+        "answers": [
+            {
+                "text": "Temperature",
+                "correct": false
+            },
+            {
+                "text": "Color",
+                "correct": false
+            },
+            {
+                "text": "Taste",
+                "correct": false
+            },
+            {
+                "text": "Texture",
+                "correct": false
+            },
+            {
+                "text": "Magnitude",
+                "correct": true
+            },
+            {
+                "text": "Direction",
+                "correct": true
+            },
+            {
+                "text": "Point of Application",
+                "correct": true
+            },
+            {
+                "text": "Line of Action",
+                "correct": true
+            }
+        ],
+        "solution": "Force is a vector quantity, which means it has both magnitude and direction. The characteristics of force include:\n\n1. Magnitude: The size or amount of force exerted.\n\n2. Direction: The line along which the force acts.\n\n3. Point of Application: The location at which the force is applied on a body.\n\n4. Line of Action: An imaginary line extending indefinitely along the direction of the force and passing through the point of application.\n\nThese are the fundamental properties that define how a force is applied and its potential effects on an object.",
+        "importance": 1
+    },
+    {
+        "question": "What is 'sense' in the context of force characteristics?",
+        "image": "https://quizstore.blob.core.windows.net/assets/characteristics_of_force.png",
+        "answers": [
+            {
+                "text": "Size of the force",
+                "correct": false
+            },
+            {
+                "text": "Line of action",
+                "correct": false
+            },
+            {
+                "text": "Direction along the line of action",
+                "correct": true
+            }
+        ],
+        "solution": "In the context of force characteristics, 'sense' refers to the direction along the line of action that the force acts. It determines which direction along the specified line the force is pushing or pulling. This is distinct from the line of action itself, which merely defines the infinite line along which the force vector lies, not the direction along that line.",
+        "importance": 1
+    },
+    {
+        "question": "What is the difference between 'line of action' and 'sense'?",
+        "image": "https://quizstore.blob.core.windows.net/assets/characteristics_of_force.png",
+        "answers": [
+            {
+                "text": "Line of action refers to the direction of an object, while sense indicates the magnitude.",
+                "correct": false
+            },
+            {
+                "text": "Line of action applies only to angular momentum, while sense applies only to torque.",
+                "correct": false
+            },
+            {
+                "text": "Line of action is the magnitude of a vector, while sense is the vector in 3D space.",
+                "correct": false
+            },
+            {
+                "text": "Line of action is the imaginary line along which a force vector acts, while sense refers to the direction of the force along that line.",
+                "correct": true
+            }
+        ],
+        "solution": "The 'line of action' of a force is the imaginary line that extends along the direction of the force vector. It describes the path along which the force is acting, indicating that the force could be applied anywhere along this line and still have the same effect on the object. On the other hand, 'sense' refers to the direction along this line. For instance, if the line of action is horizontal, the sense indicates whether it is moving to the left or the right.",
+        "importance": 1
+    },
+    {
+        "question": "What is Newton's first law of motion?",
+        "image": "https://quizstore.blob.core.windows.net/assets/first_law_image.jpg",
+        "answers": [
+            {
+                "text": "For every action, there is an equal and opposite reaction.",
+                "correct": false
+            },
+            {
+                "text": "The total momentum of a system is conserved if no external forces are acting.",
+                "correct": false
+            },
+            {
+                "text": "The force acting on an object is equal to the mass of the object times its acceleration.",
+                "correct": false
+            },
+            {
+                "text": "An object at rest stays at rest and an object in motion stays in motion with the same speed and in the same direction unless acted upon by an unbalanced external force.",
+                "correct": true
+            }
+        ],
+        "solution": "Newton's first law of motion, also known as the law of inertia, states that an object will remain at rest, or in uniform motion in a straight line, unless acted upon by an external force. This principle explains the concept of inertia, which is the tendency of objects to resist changes in their state of motion.",
+        "importance": 1
+    },
+    {
+        "question": "What is Newton's second law of motion?",
+        "image": "https://quizstore.blob.core.windows.net/assets/second_law_image.jpg",
+        "answers": [
+            {
+                "text": "An object will remain in rest or in uniform motion in a straight line unless acted upon by an external force.",
+                "correct": false
+            },
+            {
+                "text": "For every action, there is an equal and opposite reaction.",
+                "correct": false
+            },
+            {
+                "text": "The force between two objects is proportional to the product of their masses and inversely proportional to the square of the distance between their centers.",
+                "correct": false
+            },
+            {
+                "text": "The acceleration of an object is directly proportional to the net force acting upon it and inversely proportional to its mass.",
+                "correct": true
+            }
+        ],
+        "solution": "Newton's second law of motion states that the acceleration of an object is directly proportional to the net force acting upon it and inversely proportional to its mass. This is mathematically expressed as F = ma, where F is the net force applied to the object, m is the mass of the object, and a is the acceleration produced. This law explains how the velocity of an object changes when it is subjected to an external force.",
+        "importance": 1
+    },
+    {
+        "question": "What is Newton's third law of motion?",
+        "image": "https://quizstore.blob.core.windows.net/assets/third_law_image.jpg",
+        "answers": [
+            {
+                "text": "The net force acting on an object is equal to the mass of the object multiplied by its acceleration.",
+                "correct": false
+            },
+            {
+                "text": "The gravitational force between two objects is directly proportional to the product of their masses and inversely proportional to the square of the distance between them.",
+                "correct": false
+            },
+            {
+                "text": "For every action, there is an equal and opposite reaction.",
+                "correct": true
+            }
+        ],
+        "solution": "Newton's third law of motion states that for every action, there is an equal and opposite reaction. This means that forces always occur in pairs. If object A exerts a force on object B, then object B exerts an equal and opposite force on object A. This law is one of the fundamental principles of dynamics and explains interactions between objects.",
+        "importance": 1
+    }
+]
