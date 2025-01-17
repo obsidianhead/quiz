@@ -128,7 +128,23 @@ function fetchCourses() {
             name: row[1] // Assuming second column is course name
         }));
         createCourseSelection(courses);  // Pass courses to your existing function
-    }
+        // Define the API URL
+        const apiUrl = "https://api.qualia-sc.com/test-scores";
+        // Fetch data from the API
+        fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            return response.json(); // Parse the JSON from the response
+        })
+        .then(data => {
+            createScoresTable(data.scores)
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+        });
+        }
 }
 
 // Function to create and populate the scores table
@@ -187,23 +203,6 @@ function createScoresTable(scores) {
 
 // Create course selection dropdown
 function createCourseSelection(courses) {
-    // Define the API URL
-    const apiUrl = "https://api.qualia-sc.com/test-scores";
-    // Fetch data from the API
-    fetch(apiUrl)
-    .then(response => {
-        if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json(); // Parse the JSON from the response
-    })
-    .then(data => {
-        createScoresTable(data.scores)
-    })
-    .catch(error => {
-        console.error("Error fetching data:", error);
-    });
-
     const container = document.getElementById('quiz-container');
     container.innerHTML = '';  // Clear previous content
 
