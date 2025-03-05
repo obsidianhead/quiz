@@ -1,382 +1,226 @@
 [
     {
-        "question": "What is the definition of 'Engineering Mechanics'?",
+        "question": "What are the two types of force systems?",
         "image": null,
         "answers": [
             {
-                "text": "The study of how forces influence a structure or rigid body.",
+                "text": "Axial force system",
+                "correct": false
+            },
+            {
+                "text": "Polar force system",
+                "correct": false
+            },
+            {
+                "text": "Bilateral force system",
+                "correct": false
+            },
+            {
+                "text": "Concurrent force system",
                 "correct": true
             },
             {
-                "text": "Engineering Mechanics involves the design and construction of buildings and infrastructure.",
-                "correct": false
-            },
-            {
-                "text": "Engineering Mechanics focuses on the application of electrical circuits and components in engineering design.",
-                "correct": false
-            },
-            {
-                "text": "Engineering Mechanics is the branch of the physical sciences that studies the effects of forces and their application to solving engineering problems.",
-                "correct": false
+                "text": "Non-Concurrent force system",
+                "correct": true
             }
         ],
-        "solution": "Engineering Mechanics is a fundamental branch of science focusing on understanding the effects of forces on physical bodies and their application in engineering design and problem-solving. It is crucial for analyzing and designing various structural and mechanical systems by applying principles such as static equilibrium and material strength.",
+        "solution": "",
         "importance": 1
     },
     {
-        "question": "'Engineering Mechanics' consists of two areas of study, what are they?",
+        "question": "What are the two types of movements in statics?",
         "image": null,
         "answers": [
             {
-                "text": "Thermodynamics",
+                "text": "Oscillatory motion",
                 "correct": false
             },
             {
-                "text": "Fluid Mechanics",
+                "text": "Random motion",
                 "correct": false
             },
             {
-                "text": "Materials Science",
+                "text": "Acoustic motion",
                 "correct": false
             },
             {
-                "text": "Statics",
+                "text": "Resonant motion",
+                "correct": false
+            },
+            {
+                "text": "Translational motion",
                 "correct": true
             },
             {
-                "text": "Strength of Materials",
+                "text": "Rotational motion",
                 "correct": true
             }
         ],
-        "solution": "Engineering Mechanics is traditionally divided into two main areas of study: Statics, which deals with bodies at rest, and Dynamics, which deals with bodies in motion. These areas of study are fundamental in understanding how forces affect physical systems.",
+        "solution": "In statics, which is the branch of mechanics that deals with bodies at rest or forces in equilibrium, the movements that are considered are primarily translational and rotational. Translational motion refers to movement along a straight or curved path, whereas rotational motion involves an object spinning around an axis. These are fundamental concepts when analyzing structures and forces within statics.",
         "importance": 1
     },
     {
-        "question": "What is a good definition of 'Statics'?",
+        "question": "What are the two components of a \"Moment\" in statics?",
         "image": null,
         "answers": [
             {
-                "text": "The study of objects in motion without considering the forces that cause the motion.",
+                "text": "Weight and Distance",
                 "correct": false
             },
             {
-                "text": "The branch of mechanics dealing with the behavior of fluids, either in motion or at rest.",
+                "text": "Force and Torque",
                 "correct": false
             },
             {
-                "text": "A subfield of meteorology concerned with the study of atmospheric stability and storms.",
+                "text": "Mass and Acceleration",
                 "correct": false
             },
             {
-                "text": "The branch of mechanics concerned with the analysis of loads (force, torque/moment) on physical systems in static equilibrium.",
+                "text": "Force and Distance",
                 "correct": true
             }
         ],
-        "solution": "Statics is the branch of mechanics that focuses on analyzing and solving problems related to objects at rest or in equilibrium. In this field, mechanical systems are studied with the assumption that the systems are in a state of static equilibrium, meaning that all the forces and moments acting upon them are balanced and there is no movement. This encompasses the calculation and understanding of forces, as well as evaluating whether structures can sustain applied loads without motion.",
+        "solution": "In statics, a 'moment' is the measure of the tendency of a force to rotate an object about an axis or pivot. It is defined by two key components: Force and Distance (or lever arm). Additionally, moments have both Magnitude and Direction, meaning they are vector quantities. The magnitude of the moment is given by the product of the force and the perpendicular distance from the axis or point of rotation to the line of action of the force. The direction of the moment is determined by the direction of rotation it induces, typically described using the right-hand rule.",
         "importance": 1
     },
     {
-        "question": "What is a good definition of 'Strength of Materials'?",
+        "question": "What is a \"moment\" in statics?",
         "image": null,
         "answers": [
             {
-                "text": "Strength of Materials is a branch of physics that deals with the behavior of solid objects and their properties under all conditions.",
+                "text": "A. It is the absolute time at which an event in a structure occurred.",
                 "correct": false
             },
             {
-                "text": "Strength of Materials is the study of the properties of materials when they are in a liquid state under various stress conditions.",
+                "text": "C. It is the rate of change of velocity of a rotating body.",
                 "correct": false
             },
             {
-                "text": "Strength of Materials analyzes the flow of fluids and the forces acting on structures submerged in fluids.",
+                "text": "D. It is the product of inertia and acceleration.",
                 "correct": false
             },
             {
-                "text": "Strength of Materials is a branch of engineering that studies the changes in rigid bodies due to applied forces.",
+                "text": "B. It is the tendency of a force to rotate an object about a pivot or axis.",
                 "correct": true
             }
         ],
-        "solution": "The 'Strength of Materials' is a branch of engineering that specifically deals with studying how solid materials deform and break under various types of stresses and strains. This definition focuses on the solid state of materials and excludes other states of matter and unrelated branches of physics, such as fluid dynamics.",
+        "solution": "In statics, a 'moment' refers to the rotational effect produced by a force acting at a distance from a point or axis. The moment is calculated as the product of the force and the perpendicular distance from the pivot point to the line of action of the force. This is different from time or velocity-related definitions, which are unrelated to the concept of moments in static systems.",
         "importance": 1
     },
     {
-        "question": "What are the key elements of a vector quantity?",
+        "question": "How are inclined forces converted to rectangular components?",
         "image": null,
         "answers": [
             {
-                "text": "Time",
+                "text": "By using vector division and trigonometric identities",
                 "correct": false
             },
             {
-                "text": "Frequency",
+                "text": "By applying Pythagoras theorem directly to the inclined force",
                 "correct": false
             },
             {
-                "text": "Direction",
-                "correct": true
+                "text": "By using the cross product of the force and coordinate vectors",
+                "correct": false
             },
             {
-                "text": "Magnitude",
+                "text": "By resolving the force using sine and cosine of the angle with the horizontal axis",
                 "correct": true
             }
         ],
-        "solution": "A vector quantity is characterized by having both a direction and a magnitude. Unlike scalar quantities, which are only described by magnitude, vectors must indicate the direction in which they are acting, as well as how strong or fast they are in that direction.",
+        "solution": "To convert an inclined force into rectangular components, you resolve the force into its horizontal and vertical components using trigonometric functions. Specifically, the horizontal component is found by multiplying the force by the cosine of the angle between the force and the horizontal axis, and the vertical component is found by multiplying the force by the sine of that angle. This approach relies on the basic properties of right triangles and trigonometry.",
         "importance": 1
     },
     {
-        "question": "What is the key element of a scalar quantity?",
+        "question": "How is Varignon's theorem used to find the location of a resultant force?",
         "image": null,
         "answers": [
             {
-                "text": "Direction",
+                "text": "By using integration to calculate the exact position of the force vector.",
                 "correct": false
             },
             {
-                "text": "Position",
+                "text": "By applying differential equations to solve for the moment of inertia.",
                 "correct": false
             },
             {
-                "text": "Magnitude",
+                "text": "By using trigonometry to resolve force components in a coordinate system.",
+                "correct": false
+            },
+            {
+                "text": "By calculating the geometric centroid of an irregular shape.",
+                "correct": false
+            },
+            {
+                "text": "By taking the moment about a chosen point and setting the sum of moments equal to the moment of the resultant force.",
                 "correct": true
             }
         ],
-        "solution": "In physics, a scalar quantity is defined by its magnitude alone. Scalars are quantities that only require a numerical value and units for description, and do not have any direction associated with them, unlike vector quantities which have both magnitude and direction. Examples of scalar quantities include temperature, mass, and energy.",
+        "solution": "Varignon's theorem states that the moment of a resultant force about any point is equal to the sum of the moments of the component forces about the same point. It is used to find the location of the resultant force by equating the sum of the moments of the individual forces about a point to the moment of the resultant force about the same point. This allows solving for the position of the resultant force.",
         "importance": 1
     },
     {
-        "question": "When can a vector be added?",
+        "question": "Is Varignon's theorem used for concurrent or non-concurrent force systems?",
         "image": null,
         "answers": [
             {
-                "text": "When the vectors have different magnitudes but same direction",
+                "text": "concurrent",
                 "correct": false
             },
             {
-                "text": "Whenever two or more vectors are considered, regardless of their characteristics",
-                "correct": false
-            },
-            {
-                "text": "When the vectors have the same physical quantities and are in the same or compatible coordinate system",
+                "text": "non-concurrent",
                 "correct": true
             }
         ],
-        "solution": "Vectors can only be added if they represent the same physical quantities (e.g., force, velocity) and are described in the same or compatible coordinate systems. This ensures that the resulting vector accurately represents the combined effect of the original vectors.",
+        "solution": "Varignon\u2019s theorem, also known as the law of moments, is used primarily in the analysis of non-concurrent force systems. In these systems, the forces do not meet at a single point, and the theorem helps to determine the moment of a force about a point by breaking it into components.",
         "importance": 1
     },
     {
-        "question": "What is a 'line of action'?",
-        "image": "https://quizstore.blob.core.windows.net/assets/characteristics_of_force.png",
-        "answers": [
-            {
-                "text": "A line that represents the maximum load capacity of a beam in construction.",
-                "correct": false
-            },
-            {
-                "text": "A line that divides a structure into two equal parts for analysis.",
-                "correct": false
-            },
-            {
-                "text": "A line that is perpendicular to the plane of action of forces in a structural element.",
-                "correct": false
-            },
-            {
-                "text": "A line along which a force is acting on a body or structure.",
-                "correct": true
-            }
-        ],
-        "solution": "The 'line of action' of a force is an imaginary line that extends along the direction of the force and passes through the point where the force is applied. It is a critical concept in mechanics, as it helps determine the effect of a force on a body or structure, particularly in terms of torque or rotation.",
-        "importance": 1
-    },
-    {
-        "question": "Can a scalar quantity be added algebraically?",
+        "question": "What is the formula to calculate the distance between two points in 3-dimensional space?",
         "image": null,
         "answers": [
             {
-                "text": "No, scalars cannot be added algebraically",
+                "text": "<< \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2} >>",
                 "correct": false
             },
             {
-                "text": "It depends on the context of the scalar",
+                "text": "<< (x_2 + x_1) + (y_2 + y_1) + (z_2 + z_1) >>",
                 "correct": false
             },
             {
-                "text": "Yes, scalars can be added algebraically",
+                "text": "<< |x_2 - x_1| + |y_2 - y_1| + |z_2 - z_1| >>",
+                "correct": false
+            },
+            {
+                "text": "<< \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2} >>",
                 "correct": true
             }
         ],
-        "solution": "Yes, scalars can be added algebraically because they possess only magnitude, without any directional component. Thus, scalar quantities can be directly added or subtracted arithmetically, similar to regular algebraic numbers. Scalars include quantities such as time, temperature, mass, distance, and energy.",
+        "solution": "To find the distance between two points, \\((x_1, y_1, z_1)\\) and \\((x_2, y_2, z_2)\\), in a 3D space, you use the distance formula:\n\n[[ \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2} ]]\n\nThis formula is derived from the Pythagorean theorem applied successively: first to find the horizontal distance component in the xy-plane, and then including the z-coordinate contribution.",
         "importance": 1
     },
     {
-        "question": "Can a vector quantity be added algebraically?",
+        "question": "What is the formula to calculate distance in 3D?",
         "image": null,
         "answers": [
             {
-                "text": "Yes, vector quantities can always be added algebraically as they have direction and magnitude.",
+                "text": "<<d = \\sqrt{(x_2 - x_1)^2 + (y_2 + y_1)^2 + (z_2 - z_1)^2}>>",
                 "correct": false
             },
             {
-                "text": "Yes, by using their scalar components directly.",
+                "text": "<<d = |x_2 - x_1| + |y_2 - y_1| + |z_2 - z_1|>>",
                 "correct": false
             },
             {
-                "text": "No, vector quantities cannot be simply added algebraically unless they are along the same line or direction.",
+                "text": "<<d = (x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2>>",
+                "correct": false
+            },
+            {
+                "text": "<<d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2}>>",
                 "correct": true
             }
         ],
-        "solution": "Vector quantities have both magnitude and direction. For vectors to be added algebraically, they must be collinear or in the same direction. Otherwise, vectors must be added using vector addition methods like the triangle or parallelogram law, which consider both magnitude and direction. If vectors are not aligned, algebraic addition without consideration of angles and direction would lead to incorrect results.",
-        "importance": 1
-    },
-    {
-        "question": "What are the characteristics of force?",
-        "image": "https://quizstore.blob.core.windows.net/assets/characteristics_of_force.png",
-        "answers": [
-            {
-                "text": "Temperature",
-                "correct": false
-            },
-            {
-                "text": "Color",
-                "correct": false
-            },
-            {
-                "text": "Taste",
-                "correct": false
-            },
-            {
-                "text": "Texture",
-                "correct": false
-            },
-            {
-                "text": "Magnitude",
-                "correct": true
-            },
-            {
-                "text": "Direction",
-                "correct": true
-            },
-            {
-                "text": "Point of Application",
-                "correct": true
-            },
-            {
-                "text": "Line of Action",
-                "correct": true
-            }
-        ],
-        "solution": "Force is a vector quantity, which means it has both magnitude and direction. The characteristics of force include:\n\n1. Magnitude: The size or amount of force exerted.\n\n2. Direction: The line along which the force acts.\n\n3. Point of Application: The location at which the force is applied on a body.\n\n4. Line of Action: An imaginary line extending indefinitely along the direction of the force and passing through the point of application.\n\nThese are the fundamental properties that define how a force is applied and its potential effects on an object.",
-        "importance": 1
-    },
-    {
-        "question": "What is 'sense' in the context of force characteristics?",
-        "image": "https://quizstore.blob.core.windows.net/assets/characteristics_of_force.png",
-        "answers": [
-            {
-                "text": "Size of the force",
-                "correct": false
-            },
-            {
-                "text": "Line of action",
-                "correct": false
-            },
-            {
-                "text": "Direction along the line of action",
-                "correct": true
-            }
-        ],
-        "solution": "In the context of force characteristics, 'sense' refers to the direction along the line of action that the force acts. It determines which direction along the specified line the force is pushing or pulling. This is distinct from the line of action itself, which merely defines the infinite line along which the force vector lies, not the direction along that line.",
-        "importance": 1
-    },
-    {
-        "question": "What is the difference between 'line of action' and 'sense'?",
-        "image": "https://quizstore.blob.core.windows.net/assets/characteristics_of_force.png",
-        "answers": [
-            {
-                "text": "Line of action refers to the direction of an object, while sense indicates the magnitude.",
-                "correct": false
-            },
-            {
-                "text": "Line of action applies only to angular momentum, while sense applies only to torque.",
-                "correct": false
-            },
-            {
-                "text": "Line of action is the magnitude of a vector, while sense is the vector in 3D space.",
-                "correct": false
-            },
-            {
-                "text": "Line of action is the imaginary line along which a force vector acts, while sense refers to the direction of the force along that line.",
-                "correct": true
-            }
-        ],
-        "solution": "The 'line of action' of a force is the imaginary line that extends along the direction of the force vector. It describes the path along which the force is acting, indicating that the force could be applied anywhere along this line and still have the same effect on the object. On the other hand, 'sense' refers to the direction along this line. For instance, if the line of action is horizontal, the sense indicates whether it is moving to the left or the right.",
-        "importance": 1
-    },
-    {
-        "question": "What is Newton's first law of motion?",
-        "image": "https://quizstore.blob.core.windows.net/assets/first_law_image.jpg",
-        "answers": [
-            {
-                "text": "For every action, there is an equal and opposite reaction.",
-                "correct": false
-            },
-            {
-                "text": "The total momentum of a system is conserved if no external forces are acting.",
-                "correct": false
-            },
-            {
-                "text": "The force acting on an object is equal to the mass of the object times its acceleration.",
-                "correct": false
-            },
-            {
-                "text": "An object at rest stays at rest and an object in motion stays in motion with the same speed and in the same direction unless acted upon by an unbalanced external force.",
-                "correct": true
-            }
-        ],
-        "solution": "Newton's first law of motion, also known as the law of inertia, states that an object will remain at rest, or in uniform motion in a straight line, unless acted upon by an external force. This principle explains the concept of inertia, which is the tendency of objects to resist changes in their state of motion.",
-        "importance": 1
-    },
-    {
-        "question": "What is Newton's second law of motion?",
-        "image": "https://quizstore.blob.core.windows.net/assets/second_law_image.jpg",
-        "answers": [
-            {
-                "text": "An object will remain in rest or in uniform motion in a straight line unless acted upon by an external force.",
-                "correct": false
-            },
-            {
-                "text": "For every action, there is an equal and opposite reaction.",
-                "correct": false
-            },
-            {
-                "text": "The force between two objects is proportional to the product of their masses and inversely proportional to the square of the distance between their centers.",
-                "correct": false
-            },
-            {
-                "text": "The acceleration of an object is directly proportional to the net force acting upon it and inversely proportional to its mass.",
-                "correct": true
-            }
-        ],
-        "solution": "Newton's second law of motion states that the acceleration of an object is directly proportional to the net force acting upon it and inversely proportional to its mass. This is mathematically expressed as F = ma, where F is the net force applied to the object, m is the mass of the object, and a is the acceleration produced. This law explains how the velocity of an object changes when it is subjected to an external force.",
-        "importance": 1
-    },
-    {
-        "question": "What is Newton's third law of motion?",
-        "image": "https://quizstore.blob.core.windows.net/assets/third_law_image.jpg",
-        "answers": [
-            {
-                "text": "The net force acting on an object is equal to the mass of the object multiplied by its acceleration.",
-                "correct": false
-            },
-            {
-                "text": "The gravitational force between two objects is directly proportional to the product of their masses and inversely proportional to the square of the distance between them.",
-                "correct": false
-            },
-            {
-                "text": "For every action, there is an equal and opposite reaction.",
-                "correct": true
-            }
-        ],
-        "solution": "Newton's third law of motion states that for every action, there is an equal and opposite reaction. This means that forces always occur in pairs. If object A exerts a force on object B, then object B exerts an equal and opposite force on object A. This law is one of the fundamental principles of dynamics and explains interactions between objects.",
+        "solution": "The formula for the distance between two points in a 3D space is derived from the Pythagorean theorem. It considers the differences in each coordinate dimension separately. Given two points (x_1, y_1, z_1) and (x_2, y_2, z_2), the distance formula is expressed as <<d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2}>>. This accounts for contributions from all three axes.",
         "importance": 1
     }
 ]

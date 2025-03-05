@@ -28,7 +28,7 @@ def generate_quiz(question_input: str, response_type: str, difficulty: str):
     completion = client.beta.chat.completions.parse(
         model="gpt-4o-2024-08-06",
         messages=[
-            {"role": "system", "content": "You are an expert civil engineer, construction manager, and land surveyor based in the USA."},
+            {"role": "system", "content": "You are an expert civil engineer, construction manager, and land surveyor based in the USA. Where appliable modify question test to include laTex using << >> for inline and [[ ]] for block."},
             {"role": "user", "content": f"{question_input} ({response_type}, difficulty: {difficulty})"}
         ],
         response_format=QuizResponse,
