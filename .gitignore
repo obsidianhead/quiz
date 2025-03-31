@@ -2,3 +2,5 @@ data/*
 assets/*
 gpt/.env
 db/*
+JSON/*
+environment/*

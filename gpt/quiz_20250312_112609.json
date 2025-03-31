@@ -1,0 +1,26 @@
+[
+    {
+        "question": "Which of the following bearings is equivalent to an azimuth of 123\u00b0?",
+        "image": null,
+        "answers": [
+            {
+                "text": "N 123\u00b0 E",
+                "correct": false
+            },
+            {
+                "text": "S 36\u00b0 E",
+                "correct": true
+            },
+            {
+                "text": "N 36\u00b0 W",
+                "correct": false
+            },
+            {
+                "text": "S 123\u00b0 W",
+                "correct": false
+            }
+        ],
+        "solution": "An azimuth of 123\u00b0 falls into the SE quadrant, so the equivalent bearing is computed as S 36\u00b0 E (180\u00b0 - 123\u00b0 = 57\u00b0).",
+        "importance": 1
+    }
+]
