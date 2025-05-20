@@ -509,9 +509,6 @@ function resetState() {
 function showQuestion(question) {
     const container = document.getElementById('quiz-container');
 
-    // Clear previous content to avoid appending repeatedly
-    container.innerHTML = '';
-
     // Display chapter name
     const chapterNameElement = document.createElement('h4');
     chapterNameElement.className = 'text-center mb-3';
@@ -526,38 +523,38 @@ function showQuestion(question) {
     cardBody.className = 'card-body';
     cardBody.style.padding = '0';
 
-    if (question.importance == 3) {
+    if(question.importance == 3) {
         const importanceText = document.createElement('h5');
         importanceText.className = 'card-header';
-        importanceText.style.backgroundColor = '#f8d7da';
+        importanceText.style.backgroundColor = '#f8d7da'
         importanceText.textContent = "IMPORTANT - This is a question taken from a class assignment or quiz";
-        cardBody.appendChild(importanceText);
+        cardBody.appendChild(importanceText);    
     }
-
+    
     const questionText = document.createElement('h5');
     questionText.className = 'card-title';
     questionText.style.marginTop = '1.5em';
 
     try {
         // Step 1: Parse Markdown to HTML
-        let html = marked.parse(question.question);
-
-        // Step 2: Replace escaped custom delimiters with original delimiters
-        html = html.replace(/&lt;&lt;/g, '<<').replace(/&gt;&gt;/g, '>>');
-        html = html.replace(/&lsqb;&lsqb;/g, '[[').replace(/&rsqb;&rsqb;/g, ']]');
-
-        // Step 3: Insert processed HTML into the DOM
-        questionText.innerHTML = html;
-
-        // Step 4: Call MathJax to render math in the questionText element
-        MathJax.typesetPromise([questionText]).catch(err => {
-            console.error("MathJax rendering failed:", err);
-        });
+        const parsedMarkdown = marked.parse(question.question);
+    
+        // Step 2: Insert parsed Markdown into the DOM
+        if (typeof parsedMarkdown === "string" && parsedMarkdown.trim() !== "") {
+            questionText.innerHTML = parsedMarkdown;
+    
+            // Step 3: Process LaTeX with MathJax *after* inserting the content
+            // MathJax.typesetPromise([questionText]).catch(err => {
+            //     console.error("MathJax rendering failed:", err);
+            // });
+        } else {
+            throw new Error("Parsed Markdown is empty or invalid.");
+        }
     } catch (error) {
         console.warn("Markdown parsing failed, falling back to textContent:", error);
-        questionText.textContent = question.question; // fallback to raw text
+        questionText.textContent = question.question; // Fallback to raw text
     }
-
+    
     cardBody.appendChild(questionText);
 
     // Determine if multiple correct answers exist
@@ -583,27 +580,25 @@ function showQuestion(question) {
     answerButtonsElement.id = 'answer-buttons';
     answerButtonsElement.className = 'd-flex flex-column align-items-start mt-3';
 
-    question.answers
-        .sort(() => Math.random() - 0.5)
-        .forEach((answer, index) => {
-            const inputLabel = document.createElement('label');
-            inputLabel.className = 'btn btn-outline-secondary text-left mb-2 w-100 answer-label';
+    question.answers.sort(() => Math.random() - 0.5).forEach((answer, index) => {
+        const inputLabel = document.createElement('label');
+        inputLabel.className = 'btn btn-outline-secondary text-left mb-2 w-100 answer-label';
 
-            // If multiple correct answers, use checkbox; otherwise, use radio button
-            const input = document.createElement('input');
-            input.type = multipleCorrectAnswers ? 'checkbox' : 'radio';
-            input.name = 'answer';
-            input.value = index;
-            input.className = 'mr-2';
+        // If multiple correct answers, use checkbox; otherwise, use radio button
+        const input = document.createElement('input');
+        input.type = multipleCorrectAnswers ? 'checkbox' : 'radio';
+        input.name = 'answer';
+        input.value = index;
+        input.className = 'mr-2';
 
-            inputLabel.appendChild(input);
+        inputLabel.appendChild(input);
 
-            // Add text node for answer
-            const answerText = document.createTextNode(answer.text);
-            inputLabel.appendChild(answerText);
+        // Add text node for answer
+        const answerText = document.createTextNode(answer.text);
+        inputLabel.appendChild(answerText);
 
-            answerButtonsElement.appendChild(inputLabel);
-        });
+        answerButtonsElement.appendChild(inputLabel);
+    });
 
     cardBody.appendChild(answerButtonsElement);
 
@@ -644,6 +639,8 @@ function showQuestion(question) {
     solutionElement.id = 'solution';
     solutionElement.style.display = 'none';
     container.appendChild(solutionElement);
+    // mathjax typeset
+    MathJax.typeset()
 }
 
 function submitAnswer() {
