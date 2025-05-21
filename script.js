@@ -435,6 +435,8 @@ function startQuiz(dataSource, isView = false) {
         if (isView) {
             shuffleArray(questions); // Shuffle all questions
             questions.splice(30);    // Limit to 30 questions
+        } else {
+            shuffleArray(questions); // Shuffle chapter questions too
         }
 
         // Fetch answers for each question
