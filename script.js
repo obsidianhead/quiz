@@ -394,6 +394,7 @@ function createChapterAndTestSelection() {
     startTestButton.onclick = () => {
         const selectedOption = testSelect.options[testSelect.selectedIndex];
         selectedChapterName = selectedOption.getAttribute('data-name');
+        const selectedTestView = testSelect.value
         if (selectedTestView) {
             console.log(`Starting test from view: ${selectedTestView}`);
             startQuiz(selectedTestView, true);  // Pass true to indicate this is a view
