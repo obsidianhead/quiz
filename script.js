@@ -532,11 +532,11 @@ function showQuestion(question) {
     cardBody.style.padding = '0';
     
      // question Id
-    const questionIdText = document.createElement('h2');
+    const questionIdText = document.createElement('h4');
     questionIdText.className = 'card-header';
     questionIdText.style.backgroundColor = '#f8d7da'
     console.log(question)
-    questionIdText.textContent = `Question ID: ${question}`;
+    questionIdText.textContent = `Question ID: ${question.questionId}`;
     cardBody.appendChild(questionIdText);   
 
     const questionText = document.createElement('h5');
