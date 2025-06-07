@@ -523,14 +523,6 @@ function showQuestion(question) {
     chapterNameElement.textContent = selectedChapterName;  // Use textContent to handle special characters
     container.appendChild(chapterNameElement);
 
-    // question Id
-    const questionIdText = document.createElement('h2');
-    questionIdText.className = 'card-header';
-    questionIdText.style.backgroundColor = '#f8d7da'
-    console.log(question)
-    questionIdText.textContent = `Question ID: ${question}`;
-    cardBody.appendChild(questionIdText);   
-
     // Create the question card
     const questionElement = document.createElement('div');
     questionElement.className = 'card mb-4 shadow-sm w-100';
@@ -538,7 +530,15 @@ function showQuestion(question) {
     const cardBody = document.createElement('div');
     cardBody.className = 'card-body';
     cardBody.style.padding = '0';
-  
+    
+     // question Id
+    const questionIdText = document.createElement('h2');
+    questionIdText.className = 'card-header';
+    questionIdText.style.backgroundColor = '#f8d7da'
+    console.log(question)
+    questionIdText.textContent = `Question ID: ${question}`;
+    cardBody.appendChild(questionIdText);   
+
     const questionText = document.createElement('h5');
     questionText.className = 'card-title';
     questionText.style.marginTop = '1.5em';
