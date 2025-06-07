@@ -371,8 +371,9 @@ function createChapterAndTestSelection() {
 
     startChapterButton.onclick = () => {
         const selectedChapterId = chapterSelect.value;
+        selectedChapterName = chapterSelect.textContent;
         if (selectedChapterId) {
-            console.log(`Starting quiz for chapter: ${selectedChapterId}`);
+            console.log(`Starting quiz for chapter: ${selectedChapterId}`); 
             startQuiz(selectedChapterId, false);  // Pass false to indicate this is a chapter
         }
     };
@@ -388,6 +389,7 @@ function createChapterAndTestSelection() {
     });
 
     startTestButton.onclick = () => {
+        selectedChapterName = testSelect.textContent
         const selectedTestView = testSelect.value;
         if (selectedTestView) {
             console.log(`Starting test from view: ${selectedTestView}`);
