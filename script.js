@@ -335,6 +335,7 @@ function createChapterAndTestSelection() {
     config.chapters.forEach(chapter => {
         const option = document.createElement('option');
         option.value = chapter.id;
+        option.setAttribute('data-name', chapter.name);
         option.textContent = chapter.name;
         chapterSelect.appendChild(option);
     });
@@ -348,6 +349,7 @@ function createChapterAndTestSelection() {
     config.tests.forEach(test => {
         const option = document.createElement('option');
         option.value = test.viewName;  // The view name in the database
+        option.setAttribute('data-name', test.viewName);
         option.textContent = test.testName;
         testSelect.appendChild(option);
     });
@@ -371,7 +373,8 @@ function createChapterAndTestSelection() {
 
     startChapterButton.onclick = () => {
         const selectedChapterId = chapterSelect.value;
-        selectedChapterName = chapterSelect.textContent;
+        const selectedOption = chapterSelect.options[chapterSelect.selectedIndex];
+        selectedChapterName = selectedOption.getAttribute('data-name');
         if (selectedChapterId) {
             console.log(`Starting quiz for chapter: ${selectedChapterId}`); 
             startQuiz(selectedChapterId, false);  // Pass false to indicate this is a chapter
@@ -389,8 +392,8 @@ function createChapterAndTestSelection() {
     });
 
     startTestButton.onclick = () => {
-        selectedChapterName = testSelect.textContent
-        const selectedTestView = testSelect.value;
+        const selectedOption = testSelect.options[testSelect.selectedIndex];
+        selectedChapterName = selectedOption.getAttribute('data-name');
         if (selectedTestView) {
             console.log(`Starting test from view: ${selectedTestView}`);
             startQuiz(selectedTestView, true);  // Pass true to indicate this is a view
