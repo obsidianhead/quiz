@@ -4,3 +4,4 @@ gpt/.env
 db/*
 JSON/*
 environment/*
+build/*
