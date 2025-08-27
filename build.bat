@@ -40,45 +40,74 @@ if not exist "%mainBuildDir%" (
     echo Main build folder "%mainBuildDir%" created
 )
 
-REM Create the versioned build directory if it doesn't exist
-if not exist "%buildDir%" (
-    mkdir "%buildDir%"
-    echo Build folder "%buildDir%" created
-) else (
-    echo Build folder "%buildDir%" already exists, proceeding with file copy...
-)
+REM Create the versioned build directory and html subfolders
+set "htmlDir=%buildDir%\html"
+set "cssDir=%htmlDir%\css"
+set "jsDir=%htmlDir%\js"
+set "imagesDir=%htmlDir%\images"
 
-REM Copy files to the versioned build directory
-copy index.html "%buildDir%\" >nul
+if not exist "%htmlDir%" mkdir "%htmlDir%"
+if not exist "%cssDir%" mkdir "%cssDir%"
+if not exist "%jsDir%" mkdir "%jsDir%"
+if not exist "%imagesDir%" mkdir "%imagesDir%"
+
+REM Copy files to the appropriate html subfolders
+copy index.html "%htmlDir%\" >nul
 if %errorlevel% neq 0 echo Failed to copy index.html & exit /b 1
-copy script.js "%buildDir%\" >nul
+copy script.js "%jsDir%\" >nul
 if %errorlevel% neq 0 echo Failed to copy script.js & exit /b 1
-copy styles.css "%buildDir%\" >nul
+copy styles.css "%cssDir%\" >nul
 if %errorlevel% neq 0 echo Failed to copy styles.css & exit /b 1
+REM Copy images (if any)
+if exist images\*.* copy images\*.* "%imagesDir%\" >nul
 
-REM Copy and rename the database file
-copy "db\quiz.db" "%buildDir%\%newDbFile%" >nul
+REM Copy and rename the database file to html folder
+copy "db\quiz.db" "%htmlDir%\%newDbFile%" >nul
 if %errorlevel% neq 0 (
     echo Failed to copy and rename quiz.db to %newDbFile%
     exit /b 1
 )
 
-REM Replace quiz.db, isLocalMode, and forceDBDownload in script.js in the build folder
-set "oldDbName=quiz.db"
-set "newDbName=%newDbFile%"
-set "oldLocalMode=true"
-set "newLocalMode=false"
-set "oldForceDB=true"
-set "newForceDB=false"
+REM --- Create local and production subfolders with the same structure ---
+set "localDir=build\local\html"
+set "prodDir=build\production\html"
+set "localCssDir=%localDir%\css"
+set "localJsDir=%localDir%\js"
+set "localImagesDir=%localDir%\images"
+set "prodCssDir=%prodDir%\css"
+set "prodJsDir=%prodDir%\js"
+set "prodImagesDir=%prodDir%\images"
 
-REM Use PowerShell to replace all instances in script.js, handling spaces around the equals sign
-powershell -Command "(Get-Content '%buildDir%\script.js') -replace '\bquiz\.db\b', '%newDbName%' -replace '\bisLocalMode\s*=\s*true\b', 'isLocalMode = false' -replace '\bforceDBDownload\s*=\s*true\b', 'forceDBDownload = false' | Set-Content '%buildDir%\script.js'"
+if not exist "%localDir%" mkdir "%localDir%"
+if not exist "%localCssDir%" mkdir "%localCssDir%"
+if not exist "%localJsDir%" mkdir "%localJsDir%"
+if not exist "%localImagesDir%" mkdir "%localImagesDir%"
+if not exist "%prodDir%" mkdir "%prodDir%"
+if not exist "%prodCssDir%" mkdir "%prodCssDir%"
+if not exist "%prodJsDir%" mkdir "%prodJsDir%"
+if not exist "%prodImagesDir%" mkdir "%prodImagesDir%"
 
-if %errorlevel% neq 0 (
-    echo Failed to update script.js with new database name, local mode, and forceDBDownload values.
-    exit /b 1
-)
+REM Copy files to local build
+copy index.html "%localDir%\" >nul
+copy styles.css "%localCssDir%\" >nul
+copy script.js "%localJsDir%\" >nul
+copy "%htmlDir%\%newDbFile%" "%localDir%\" >nul
+if exist images\*.* copy images\*.* "%localImagesDir%\" >nul
+REM Set local DB base URL and DB file name in script.js
+powershell -Command "(Get-Content '%localJsDir%\script.js') -replace 'DB_BASE_URL', '.' -replace 'DB_FILE_NAME', '%newDbFile%' | Set-Content '%localJsDir%\script.js'"
 
-echo Build completed successfully in "%buildDir%" with version %buildVersion%.
+REM Copy files to production build
+copy index.html "%prodDir%\" >nul
+copy styles.css "%prodCssDir%\" >nul
+copy script.js "%prodJsDir%\" >nul
+copy "%htmlDir%\%newDbFile%" "%prodDir%\" >nul
+if exist images\*.* copy images\*.* "%prodImagesDir%\" >nul
+REM Set Azure DB base URL and DB file name in script.js
+powershell -Command "(Get-Content '%prodJsDir%\script.js') -replace 'DB_BASE_URL', 'https://quizstore.blob.core.windows.net/database' -replace 'DB_FILE_NAME', '%newDbFile%' | Set-Content '%prodJsDir%\script.js'"
+
+echo Local and production builds created in %localDir% and %prodDir%.
 
 pause
+
+REM Serve the latest build using the new script
+call serve-latest-build.bat

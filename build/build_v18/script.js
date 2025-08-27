@@ -1,0 +1,578 @@
+let db;  // Global variable for SQLite database
+let allQuestions, filteredQuestions, currentQuestionIndex, correctAnswers, incorrectAnswers, timer;
+let timeLeft;  // Dynamically calculated based on the number of questions
+let config = { courseName: '', chapters: [] };
+let selectedCourse = '';
+let selectedChapterName = '';
+const dbName = 'quiz';  // Database name
+const blobBaseUrl = 'https://quizstore.blob.core.windows.net/database';  // Base URL for the blob storage
+const localBaseUrl = './db';  // Base URL for local testing (local folder path)
+let isLocalMode = false;  // Set to 'false' for local testing, 'false' for Azure Blob
+const forceDBDownload = false;  // Toggle between force download or use of IndexedDB
+
+// Open or create the IndexedDB
+function openIndexedDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, 1);
+        
+        // Create schema if necessary
+        request.onupgradeneeded = function(event) {
+            const db = event.target.result;
+            db.createObjectStore('SQLiteStore');  // Create a store to hold the SQLite database files
+        };
+        
+        request.onsuccess = function(event) {
+            resolve(event.target.result);
+        };
+        
+        request.onerror = function(event) {
+            reject('Error opening IndexedDB:', event.target.errorCode);
+        };
+    });
+}
+
+// Store a SQLite DB file in IndexedDB
+function storeDatabaseInIndexedDB(arrayBuffer, dbName) {
+    return openIndexedDB().then(db => {
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction(['SQLiteStore'], 'readwrite');
+            const store = transaction.objectStore('SQLiteStore');
+            store.put(arrayBuffer, dbName);  // Store the DB file with its name as the key
+            transaction.oncomplete = () => resolve();
+            transaction.onerror = (event) => reject('Error storing the database:', event.target.errorCode);
+        });
+    });
+}
+
+// Fetch the database file from IndexedDB by name
+function fetchDatabaseFromIndexedDB(dbName) {
+    return openIndexedDB().then(db => {
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction(['SQLiteStore'], 'readonly');
+            const store = transaction.objectStore('SQLiteStore');
+            const request = store.get(dbName);
+
+            request.onsuccess = () => resolve(request.result);  // Return the file if found
+            request.onerror = (event) => reject('Error fetching the database:', event.target.errorCode);
+        });
+    });
+}
+
+// Load a specific database (e.g., 'quiz-v1.db')
+function loadDatabase(dbName) {
+    const baseUrl = isLocalMode ? localBaseUrl : blobBaseUrl;
+
+    if (forceDBDownload) {
+        console.log(`Forcing new download of ${dbName} from ${isLocalMode ? 'local' : 'Azure Blob'}...`);
+        fetchDatabaseFromServer(dbName, baseUrl);
+    } else {
+        fetchDatabaseFromIndexedDB(dbName).then(dbData => {
+            if (dbData) {
+                console.log(`${dbName} loaded from IndexedDB`);
+                initializeDatabase(new Uint8Array(dbData));  // Initialize the SQLite DB using sql.js
+            } else {
+                console.log(`${dbName} not found in IndexedDB, fetching from ${isLocalMode ? 'local' : 'Azure Blob'}...`);
+                fetchDatabaseFromServer(dbName, baseUrl);
+            }
+        }).catch(error => {
+            console.error('Error fetching database from IndexedDB:', error);
+            // Fallback to fetching from server if IndexedDB fails
+            fetchDatabaseFromServer(dbName, baseUrl);
+        });
+    }
+}
+
+// Fetch the database file from the server (or local) and store in IndexedDB
+function fetchDatabaseFromServer(dbName, baseUrl) {
+    const dbPath = `${baseUrl}/${dbName}`;  // Use local or blob base URL based on mode
+    fetch(dbPath)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Failed to load ${dbName} from ${isLocalMode ? 'local' : 'Azure Blob'}: ${response.statusText}`);
+            }
+            return response.arrayBuffer();
+        })
+        .then(data => {
+            storeDatabaseInIndexedDB(data, dbName);  // Store new DB in IndexedDB
+            initializeDatabase(new Uint8Array(data));  // Initialize the SQLite DB using sql.js
+        })
+        .catch(error => {
+            console.error(`Failed to load ${dbName} from ${isLocalMode ? 'local' : 'Azure Blob'}:`, error);
+        });
+}
+
+// Initialize the SQLite database with sql.js
+function initializeDatabase(data) {
+    const SQL = window.initSqlJs({
+        locateFile: file => `https://cdnjs.cloudflare.com/ajax/libs/sql.js/1.6.1/sql-wasm.wasm`
+    });
+
+    SQL.then(SQL => {
+        db = new SQL.Database(data);  // Load the SQLite database into sql.js
+        console.log('SQLite database initialized');
+        fetchCourses();  // Fetch the courses after database is initialized
+    });
+}
+
+// Load the database on page load
+document.addEventListener('DOMContentLoaded', () => {
+    loadDatabase('quiz_v18.db');  // You can specify 'quiz-v1.db' or any version
+});
+
+// Fetch courses from the SQLite database
+function fetchCourses() {
+    const results = db.exec("SELECT * FROM courses;");
+    if (results.length > 0) {
+        const courses = results[0].values.map(row => ({
+            id: row[0],  // Assuming first column is course ID
+            name: row[1] // Assuming second column is course name
+        }));
+        createCourseSelection(courses);  // Pass courses to your existing function
+    }
+}
+
+// Create course selection dropdown
+function createCourseSelection(courses) {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';  // Clear previous content
+
+    // Create the quiz title
+    const quizTitle = document.createElement('h1');
+    quizTitle.id = 'quiz-title';
+    quizTitle.className = 'text-center mb-4';
+    quizTitle.innerText = 'Civil Engineering Technology Quiz App';
+    
+    // Create the disclaimer
+    const disclaimer = document.createElement('p');
+    disclaimer.id = 'disclaimer';
+    disclaimer.className = 'text-center text-muted';
+    disclaimer.innerText = 'This quiz is for personal development only. The content is not approved by Horry Georgetown Technical College.';
+
+    // Append title and disclaimer to the container
+    container.appendChild(quizTitle);
+    container.appendChild(disclaimer);
+
+    // Create course select label
+    const courseSelectLabel = document.createElement('label');
+    courseSelectLabel.innerText = "Select a Course:";
+    courseSelectLabel.className = 'mb-2';
+
+    // Create the select element
+    const courseSelect = document.createElement('select');
+    courseSelect.id = 'course-select';
+    courseSelect.className = 'custom-select';
+    courseSelect.style.maxWidth = '300px';
+    courseSelect.style.margin = '0 auto';
+
+    courseSelect.innerHTML = '<option value="" disabled selected>Select a course</option>';
+    courses.forEach(course => {
+        const option = document.createElement('option');
+        option.value = course.id;
+        option.textContent = course.name;
+        courseSelect.appendChild(option);
+    });
+
+    // Append the course select elements to the container
+    container.appendChild(courseSelectLabel);
+    container.appendChild(courseSelect);
+
+    // Create the "Next" button
+    const startButton = document.createElement('button');
+    startButton.innerText = 'Next';
+    startButton.className = 'btn btn-primary mt-3';
+    startButton.disabled = false;
+
+    // Event listener to enable the button once a course is selected
+    courseSelect.addEventListener('change', () => {
+        startButton.disabled = !courseSelect.value;
+        selectedCourse = courseSelect.value;
+        console.log(`Course selected: ${selectedCourse}`);
+    });
+
+    // Event listener for the button to load the selected course's chapters
+    startButton.onclick = () => {
+        if (selectedCourse) {
+            const selectedCourseName = courseSelect.options[courseSelect.selectedIndex].text;
+            console.log(`Loading chapters for course: ${selectedCourse}, ${selectedCourseName}`);
+            loadCourseConfig(selectedCourse, selectedCourseName); // Pass both ID and name
+        }
+    };
+
+    // Append the "Next" button to the container
+    container.appendChild(startButton);
+}
+
+// Load course configuration (chapters and tests) from the SQLite database
+function loadCourseConfig(courseId, courseName) {
+    const chapterQuery = `SELECT * FROM chapters WHERE course_id = ?;`;
+    const chapterResults = db.exec(chapterQuery, [courseId]);
+
+    const testQuery = `SELECT * FROM tests WHERE course_id = ?;`;
+    const testResults = db.exec(testQuery, [courseId]);
+
+    if (chapterResults.length > 0 || testResults.length > 0) {
+        const chapters = chapterResults.length > 0 ? chapterResults[0].values.map(row => ({
+            id: row[0],  // Assuming first column is the chapter ID
+            name: row[2]  // Assuming third column is the chapter name
+        })) : [];
+
+        const tests = testResults.length > 0 ? testResults[0].values.map(row => ({
+            testName: row[1],   // Test name
+            viewName: row[2]    // Corresponding view name in the database
+        })) : [];
+
+        console.log('Chapters and tests loaded for course:', chapters, tests);
+        
+        // Set the course name here instead of the ID
+        config = { courseName: `${courseName}`, chapters, tests };
+        createChapterAndTestSelection();  // Create both chapter and test selection UI
+    } else {
+        console.error('No chapters or tests found for the course.');
+    }
+}
+
+// Create chapter and test selection
+// Create chapter and test selection
+function createChapterAndTestSelection() {
+    const container = document.getElementById('quiz-container');
+    container.innerHTML = '';  // Clear previous content
+
+    const courseNameElement = document.createElement('h1');
+    courseNameElement.className = 'display-4 mb-4 text-center';
+    courseNameElement.innerText = config.courseName;
+    container.appendChild(courseNameElement);
+
+    // Create a dropdown for chapters
+    const chapterSelect = document.createElement('select');
+    chapterSelect.id = 'chapter-select';
+    chapterSelect.className = 'custom-select mb-3';
+    chapterSelect.innerHTML = '<option value="" disabled selected>Select a chapter</option>';
+
+    config.chapters.forEach(chapter => {
+        const option = document.createElement('option');
+        option.value = chapter.id;
+        option.textContent = chapter.name;
+        chapterSelect.appendChild(option);
+    });
+
+    // Create a dropdown for tests
+    const testSelect = document.createElement('select');
+    testSelect.id = 'test-select';
+    testSelect.className = 'custom-select mb-3';
+    testSelect.innerHTML = '<option value="" disabled selected>Select a test</option>';
+
+    config.tests.forEach(test => {
+        const option = document.createElement('option');
+        option.value = test.viewName;  // The view name in the database
+        option.textContent = test.testName;
+        testSelect.appendChild(option);
+    });
+
+    container.appendChild(chapterSelect);
+    container.appendChild(testSelect);
+
+    // Create a flex container to hold both start buttons in a row
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'd-flex justify-content-center mt-3';
+
+    // Create start button for chapters
+    const startChapterButton = document.createElement('button');
+    startChapterButton.innerText = 'Start Chapter Quiz';
+    startChapterButton.className = 'btn btn-primary';
+    startChapterButton.disabled = false;
+
+    chapterSelect.addEventListener('change', () => {
+        startChapterButton.disabled = !chapterSelect.value;
+    });
+
+    startChapterButton.onclick = () => {
+        const selectedChapterId = chapterSelect.value;
+        if (selectedChapterId) {
+            console.log(`Starting quiz for chapter: ${selectedChapterId}`);
+            startQuiz(selectedChapterId, false);  // Pass false to indicate this is a chapter
+        }
+    };
+
+    // Create start button for tests
+    const startTestButton = document.createElement('button');
+    startTestButton.innerText = 'Start Test';
+    startTestButton.className = 'btn btn-primary ml-3';  // Add margin to separate buttons
+    startTestButton.disabled = false;
+
+    testSelect.addEventListener('change', () => {
+        startTestButton.disabled = !testSelect.value;
+    });
+
+    startTestButton.onclick = () => {
+        const selectedTestView = testSelect.value;
+        if (selectedTestView) {
+            console.log(`Starting test from view: ${selectedTestView}`);
+            startQuiz(selectedTestView, false);  // Pass false to indicate this is a view
+        }
+    };
+
+    // Append both buttons to the flex container
+    buttonContainer.appendChild(startChapterButton);
+    buttonContainer.appendChild(startTestButton);
+
+    // Append the button container to the main container
+    container.appendChild(buttonContainer);
+}
+
+// Generalized startQuiz function to load questions from either a chapter or a view
+function startQuiz(dataSource, isView = false) {
+    let query;
+
+    // Determine the query based on whether it's a view or a chapter
+    if (isView) {
+        // Fetch questions from the view (no WHERE clause is needed)
+        query = `
+            SELECT question_id, question_text, image, solution_text
+            FROM ${dataSource};
+        `;
+    } else {
+        // Fetch questions from a specific chapter
+        query = `
+            SELECT q.id AS question_id, q.question_text, q.image, s.solution_text
+            FROM questions q
+            LEFT JOIN solutions s ON q.id = s.question_id
+            WHERE q.chapter_id = ?;
+        `;
+    }
+
+    // Execute the query and fetch results
+    const results = isView ? db.exec(query) : db.exec(query, [dataSource]);
+
+    if (results.length > 0) {
+        const questions = results[0].values.map(row => ({
+            questionId: row[0],  // question_id from the view or query
+            question: row[1],    // question_text from the view or query
+            image: row[2],       // image from the view or query (if any)
+            solution: row[3],    // solution_text from the view or query
+            answers: []          // Answers will be fetched separately
+        }));
+
+        // Fetch answers for each question
+        questions.forEach((question, index) => {
+            const answerQuery = `SELECT * FROM answers WHERE question_id = ?;`;
+            const answerResults = db.exec(answerQuery, [question.questionId]);
+
+            if (answerResults.length > 0) {
+                question.answers = answerResults[0].values.map(answerRow => ({
+                    text: answerRow[2],    // Answer text
+                    correct: answerRow[3]  // Is the answer correct
+                }));
+            }
+        });
+
+        // Now, process the questions
+        filteredQuestions = questions.sort(() => Math.random() - 0.5);
+        currentQuestionIndex = 0;
+        correctAnswers = 0;
+        incorrectAnswers = [];
+
+        timeLeft = filteredQuestions.length * 60;  // 1 minute per question
+
+        document.getElementById('quiz-container').innerHTML = '';
+        showQuizTimer();
+        startQuizTimer();
+        setNextQuestion();
+    } else {
+        console.error(`No questions found for ${isView ? 'view' : 'chapter'} ${dataSource}.`);
+    }
+}
+
+
+// Start the quiz timer
+function startQuizTimer() {
+    timer = setInterval(() => {
+        timeLeft--;
+        document.getElementById('quiz-timer').innerText = `Time Left: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')} minutes`;
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            endQuiz();
+        }
+    }, 1000);
+}
+
+function showQuizTimer() {
+    const container = document.getElementById('quiz-container');
+    const timerElement = document.createElement('p');
+    timerElement.id = 'quiz-timer';
+    timerElement.className = 'lead text-center mb-4';
+    timerElement.innerText = `Time Left: ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')} minutes`;
+    container.insertBefore(timerElement, container.firstChild);
+}
+
+function setNextQuestion() {
+    resetState();
+    showQuestion(filteredQuestions[currentQuestionIndex]);
+}
+
+function resetState() {
+    const container = document.getElementById('quiz-container');
+    while (container.firstChild) {
+        container.removeChild(container.firstChild);
+    }
+    showQuizTimer();
+}
+
+function showQuestion(question) {
+    const container = document.getElementById('quiz-container');
+
+    // Display chapter name
+    const chapterNameElement = document.createElement('h4');
+    chapterNameElement.className = 'text-center mb-3';
+    chapterNameElement.textContent = selectedChapterName;  // Use textContent to handle special characters
+    container.appendChild(chapterNameElement);
+
+    // Create the question card
+    const questionElement = document.createElement('div');
+    questionElement.className = 'card mb-4 shadow-sm w-100';
+
+    const cardBody = document.createElement('div');
+    cardBody.className = 'card-body';
+
+    const questionText = document.createElement('h5');
+    questionText.className = 'card-title';
+    questionText.textContent = question.question;  // Use textContent to handle apostrophes and special characters
+    cardBody.appendChild(questionText);
+
+    // Add question image if present
+    if (question.image) {
+        const questionImage = document.createElement('img');
+        questionImage.src = question.image;
+        questionImage.alt = "Question Image";
+        questionImage.className = 'img-fluid mt-3 mb-3';
+        cardBody.appendChild(questionImage);
+    }
+
+    // Add answer options
+    const answerButtonsElement = document.createElement('div');
+    answerButtonsElement.id = 'answer-buttons';
+    answerButtonsElement.className = 'd-flex flex-column align-items-start mt-3';
+
+    question.answers.sort(() => Math.random() - 0.5).forEach((answer, index) => {
+        const radioLabel = document.createElement('label');
+        radioLabel.className = 'btn btn-outline-secondary text-left mb-2 w-100 answer-label';
+
+        const radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.name = 'answer';
+        radio.value = index;
+        radio.className = 'mr-2';
+
+        radioLabel.appendChild(radio);
+
+        // Add text node for answer
+        const answerText = document.createTextNode(answer.text);
+        radioLabel.appendChild(answerText);
+
+        answerButtonsElement.appendChild(radioLabel);
+    });
+
+    cardBody.appendChild(answerButtonsElement);
+
+    // Create a flex container for buttons
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'd-flex justify-content-between mt-4';
+
+    // Submit button
+    const submitButton = document.createElement('button');
+    submitButton.id = 'submit-button';
+    submitButton.innerText = 'Submit';
+    submitButton.className = 'btn btn-primary';
+    submitButton.onclick = submitAnswer;
+    buttonContainer.appendChild(submitButton);
+
+    // Exit button
+    const exitButton = document.createElement('button');
+    exitButton.id = 'exit-button';
+    exitButton.innerText = 'Exit';
+    exitButton.className = 'btn btn-danger';
+
+    // Confirmation for exit button
+    exitButton.onclick = () => {
+        if (confirm('Are you sure you want to exit the quiz? All progress will be lost.')) {
+            window.location.reload();  // Refresh the page
+        }
+    };
+    buttonContainer.appendChild(exitButton);
+
+    // Append buttons to card body
+    cardBody.appendChild(buttonContainer);
+
+    questionElement.appendChild(cardBody);
+    container.appendChild(questionElement);
+
+    // Solution area (hidden initially)
+    const solutionElement = document.createElement('div');
+    solutionElement.id = 'solution';
+    solutionElement.style.display = 'none';
+    container.appendChild(solutionElement);
+}
+
+function submitAnswer() {
+    const selectedAnswer = document.querySelector('input[name="answer"]:checked');
+    const currentQuestion = filteredQuestions[currentQuestionIndex];
+
+    if (!selectedAnswer) {
+        alert("Please select an answer.");
+        return;
+    }
+
+    const selectedIndex = parseInt(selectedAnswer.value);
+    const correctIndex = currentQuestion.answers.findIndex(answer => answer.correct);
+
+    // Mark answers
+    const answerLabels = document.querySelectorAll('label');
+    answerLabels[selectedIndex].classList.add(selectedIndex === correctIndex ? 'btn-success' : 'btn-danger');
+    answerLabels[correctIndex].classList.add('btn-success');
+
+    // Check if the selected answer is correct and increment the correctAnswers counter
+    if (selectedIndex === correctIndex) {
+        correctAnswers++;
+    }
+
+    // Show the solution (solution is associated with the question)
+    const solutionElement = document.getElementById('solution');
+    if (currentQuestion.solution) {
+        const solutionText = currentQuestion.solution || 'No solution provided.';
+        solutionElement.style.display = 'block';
+        solutionElement.innerHTML = `<h5>Solution:</h5><p>${solutionText}</p>`;  // Render the solution
+
+        // Re-render MathJax to process any LaTeX (optional)
+        if (window.MathJax) {
+            MathJax.typeset();
+        }
+    }
+
+    // Disable the submit button and change to "Next"
+    const submitButton = document.getElementById('submit-button');
+    submitButton.innerText = 'Next';
+    submitButton.onclick = nextQuestion;
+}
+
+function nextQuestion() {
+    currentQuestionIndex++;
+    if (currentQuestionIndex < filteredQuestions.length) {
+        setNextQuestion();
+    } else {
+        endQuiz();
+    }
+}
+
+function endQuiz() {
+    clearInterval(timer);
+    resetState();
+    const scoreElement = document.createElement('h2');
+    scoreElement.className = 'display-5 text-center';
+    scoreElement.innerText = `You answered ${correctAnswers} out of ${filteredQuestions.length} questions correctly!`;
+    document.getElementById('quiz-container').appendChild(scoreElement);
+
+    const restartButton = document.createElement('button');
+    restartButton.innerText = 'Restart';
+    restartButton.className = 'btn btn-secondary mt-4';
+    restartButton.onclick = () => location.reload();
+    document.getElementById('quiz-container').appendChild(restartButton);
+}
