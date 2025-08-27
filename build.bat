@@ -54,8 +54,14 @@ if not exist "%imagesDir%" mkdir "%imagesDir%"
 REM Copy files to the appropriate html subfolders
 copy index.html "%htmlDir%\" >nul
 if %errorlevel% neq 0 echo Failed to copy index.html & exit /b 1
-copy script.js "%jsDir%\" >nul
-if %errorlevel% neq 0 echo Failed to copy script.js & exit /b 1
+copy js\state.js "%jsDir%\" >nul
+if %errorlevel% neq 0 echo Failed to copy state.js & exit /b 1
+copy js\db.js "%jsDir%\" >nul
+if %errorlevel% neq 0 echo Failed to copy db.js & exit /b 1
+copy js\db-load.js "%jsDir%\" >nul
+if %errorlevel% neq 0 echo Failed to copy db-load.js & exit /b 1
+copy js\quiz-ui.js "%jsDir%\" >nul
+if %errorlevel% neq 0 echo Failed to copy quiz-ui.js & exit /b 1
 copy styles.css "%cssDir%\" >nul
 if %errorlevel% neq 0 echo Failed to copy styles.css & exit /b 1
 REM Copy images (if any)
@@ -90,20 +96,26 @@ if not exist "%prodImagesDir%" mkdir "%prodImagesDir%"
 REM Copy files to local build
 copy index.html "%localDir%\" >nul
 copy styles.css "%localCssDir%\" >nul
-copy script.js "%localJsDir%\" >nul
+copy js\state.js "%localJsDir%\" >nul
+copy js\db.js "%localJsDir%\" >nul
+copy js\db-load.js "%localJsDir%\" >nul
+copy js\quiz-ui.js "%localJsDir%\" >nul
 copy "%htmlDir%\%newDbFile%" "%localDir%\" >nul
 if exist images\*.* copy images\*.* "%localImagesDir%\" >nul
-REM Set local DB base URL and DB file name in script.js
-powershell -Command "(Get-Content '%localJsDir%\script.js') -replace 'DB_BASE_URL', '.' -replace 'DB_FILE_NAME', '%newDbFile%' | Set-Content '%localJsDir%\script.js'"
+REM Set local DB base URL and DB file name in state.js
+powershell -Command "(Get-Content '%localJsDir%\state.js') -replace 'DB_BASE_URL', '.' -replace 'DB_FILE_NAME', '%newDbFile%' | Set-Content '%localJsDir%\state.js'"
 
 REM Copy files to production build
 copy index.html "%prodDir%\" >nul
 copy styles.css "%prodCssDir%\" >nul
-copy script.js "%prodJsDir%\" >nul
+copy js\state.js "%prodJsDir%\" >nul
+copy js\db.js "%prodJsDir%\" >nul
+copy js\db-load.js "%prodJsDir%\" >nul
+copy js\quiz-ui.js "%prodJsDir%\" >nul
 copy "%htmlDir%\%newDbFile%" "%prodDir%\" >nul
 if exist images\*.* copy images\*.* "%prodImagesDir%\" >nul
-REM Set Azure DB base URL and DB file name in script.js
-powershell -Command "(Get-Content '%prodJsDir%\script.js') -replace 'DB_BASE_URL', 'https://quizstore.blob.core.windows.net/database' -replace 'DB_FILE_NAME', '%newDbFile%' | Set-Content '%prodJsDir%\script.js'"
+REM Set Azure DB base URL and DB file name in state.js
+powershell -Command "(Get-Content '%prodJsDir%\state.js') -replace 'DB_BASE_URL', 'https://quizstore.blob.core.windows.net/database' -replace 'DB_FILE_NAME', '%newDbFile%' | Set-Content '%prodJsDir%\state.js'"
 
 echo Local and production builds created in %localDir% and %prodDir%.
 
