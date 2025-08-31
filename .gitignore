@@ -5,3 +5,4 @@ db/*
 JSON/*
 environment/*
 build/*
+node_modules/

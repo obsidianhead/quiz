@@ -119,7 +119,8 @@ powershell -Command "(Get-Content '%prodJsDir%\state.js') -replace 'DB_BASE_URL'
 
 echo Local and production builds created in %localDir% and %prodDir%.
 
-pause
+REM Run unit tests with npm
+echo Running unit tests...
+call npm test
 
-REM Serve the latest build using the new script
-call serve-latest-build.bat
+pause

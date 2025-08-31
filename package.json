@@ -1,0 +1,23 @@
+{
+  "name": "quiz",
+  "version": "1.0.0",
+  "description": "- create a new branch with command: git branch <name> - switch to branch with command: git checkout <name> - modify questions.json, quiz_config.json, and images.json - commit changes to branch with command: git commit -m \"this is a commit message\"",
+  "main": "script.js",
+  "scripts": {
+  "test": "jest tests"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/obsidianhead/quiz.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/obsidianhead/quiz/issues"
+  },
+  "homepage": "https://github.com/obsidianhead/quiz#readme",
+  "devDependencies": {
+    "jest": "^30.1.1"
+  }
+}
