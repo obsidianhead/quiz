@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "description": "- create a new branch with command: git branch <name> - switch to branch with command: git checkout <name> - modify questions.json, quiz_config.json, and images.json - commit changes to branch with command: git commit -m \"this is a commit message\"",
   "main": "script.js",
+  "type": "module",
   "scripts": {
-  "test": "jest tests"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js tests"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,7 @@
   },
   "homepage": "https://github.com/obsidianhead/quiz#readme",
   "devDependencies": {
-    "jest": "^30.1.1"
+    "jest": "^30.1.1",
+    "jest-environment-jsdom": "^30.1.1"
   }
 }

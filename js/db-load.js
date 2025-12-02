@@ -43,8 +43,17 @@ function initializeDatabase(data) {
         console.log('SQLite database initialized');
         fetchCourses();
     });
+    if (typeof window !== "undefined") {
+        window.loadDatabase = loadDatabase;
+        window.fetchDatabaseFromServer = fetchDatabaseFromServer;
+        window.initializeDatabase = initializeDatabase;
+    }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadDatabase(QuizApp.dbFileName);
-});
+if (typeof document !== "undefined") {
+    document.addEventListener('DOMContentLoaded', () => {
+        loadDatabase(QuizApp.dbFileName);
+    });
+}
+
+

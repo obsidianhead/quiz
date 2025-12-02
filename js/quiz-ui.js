@@ -350,6 +350,10 @@ function showQuestion(question) {
     const solutionElement = document.createElement('div');
     solutionElement.id = 'solution';
     solutionElement.style.display = 'none';
+    if (question.solution) {
+        const htmlSolution = marked.parse(question.solution);
+        solutionElement.innerHTML = `<h5>Solution:</h5><div>${htmlSolution}</div>`;
+    }
     container.appendChild(solutionElement);
     MathJax.typeset();
 }
@@ -382,10 +386,7 @@ function submitAnswer() {
     if (allCorrect) QuizApp.correctAnswers++;
     const solutionElement = document.getElementById('solution');
     if (currentQuestion.solution) {
-        const solutionText = currentQuestion.solution || 'No solution provided.';
-        const htmlSolution = marked.parse(solutionText);
         solutionElement.style.display = 'block';
-        solutionElement.innerHTML = `<h5>Solution:</h5><div>${htmlSolution}</div>`;
     }
     const submitButton = document.getElementById('submit-button');
     submitButton.innerText = 'Next';
@@ -413,4 +414,23 @@ function endQuiz() {
     restartButton.className = 'btn btn-secondary mt-4';
     restartButton.onclick = () => location.reload();
     document.getElementById('quiz-container').appendChild(restartButton);
+    
+    if (typeof window !== "undefined") {
+        window.fetchCourses = fetchCourses;
+        window.createCourseSelection = createCourseSelection;
+        window.loadCourseConfig = loadCourseConfig;
+        window.createChapterAndTestSelection = createChapterAndTestSelection;
+        window.startQuiz = startQuiz;
+        window.shuffleArray = shuffleArray;
+        window.startQuizTimer = startQuizTimer;
+        window.showQuizTimer = showQuizTimer;
+        window.setNextQuestion = setNextQuestion;
+        window.resetState = resetState;
+        window.showQuestion = showQuestion;
+        window.submitAnswer = submitAnswer;
+        window.nextQuestion = nextQuestion;
+        window.endQuiz = endQuiz;
+    }
 }
+
+
